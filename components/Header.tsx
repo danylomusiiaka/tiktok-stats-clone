@@ -1,0 +1,21 @@
+import { StackNavigationProp } from "@react-navigation/stack";
+import { View, Text, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+
+type RootStackParamList = {
+  Form: undefined;
+};
+type AnalyticsProps = {
+  navigation: StackNavigationProp<RootStackParamList, "Form">;
+};
+
+export function Header({ navigation } : AnalyticsProps) {
+  return (
+    <View className="flex-row items-center justify-center  px-4 py-4">
+      <TouchableOpacity className="absolute left-4 p-2" onPress={() => navigation.goBack()}>
+        <Icon name="chevron-back" size={24} color="black" />
+      </TouchableOpacity>
+      <Text className="text-center text-xl font-bold">Анализ видео</Text>
+    </View>
+  );
+}
