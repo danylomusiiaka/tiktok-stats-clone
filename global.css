@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
-    color: #4180e5
+.submit-button {
+    background-color: #4CAF50;
+    padding: 20px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
 }

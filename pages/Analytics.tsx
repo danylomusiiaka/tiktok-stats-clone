@@ -14,7 +14,7 @@ type AnalyticsProps = {
   navigation: StackNavigationProp<RootStackParamList, "Form">;
 };
 
-export function Analytics({ navigation }: AnalyticsProps) {
+export default function Analytics({ navigation }: AnalyticsProps) {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Обзор", "Зрители", "Вовлеченность"];
   const [isTabPressed, setIsTabPressed] = useState(false);
@@ -28,9 +28,7 @@ export function Analytics({ navigation }: AnalyticsProps) {
         <View className="p-4 py-2">
           <Thumbnail />
 
-          <View className="mb-5 flex items-center justify-center">
-            <Text className="text-sm text-gray-600">Опубликовано 15 февр 2025, 21:28</Text>
-          </View>
+          
 
           <Stats />
         </View>
