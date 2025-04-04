@@ -4,6 +4,8 @@ import Analytics from "./pages/Analytics";
 import StatsForm from "./pages/StatsForm";
 import MainMetricsForm from "./pages/MainMetricsForm";
 import StartPage from "./pages/StartPage";
+import TrafficOriginForm from "./pages/TrafficOriginForm";
+import SearchQueriesForm from "./pages/SearchTermsForm";
 import { IDProvider } from "./contexts/IdContext";
 import "./global.css";
 
@@ -19,9 +21,16 @@ export default function App() {
             headerShown: false,
           }}
         >
+          {/* Starting from here */}
           <Stack.Screen name="StartPage" component={StartPage} />
+
+          {/* Forms */}
           <Stack.Screen name="StatsForm" component={StatsForm} />
           <Stack.Screen name="MainMetricsForm" component={MainMetricsForm} />
+          <Stack.Screen name="TrafficOriginForm" component={TrafficOriginForm} />
+          <Stack.Screen name="SearchQueriesForm" component={SearchQueriesForm} />
+
+          {/* Result of forms */}
           <Stack.Screen name="Analytics" component={Analytics} />
         </Stack.Navigator>
       </NavigationContainer>

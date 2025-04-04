@@ -2,6 +2,7 @@ import { SQLTableColumn } from "interfaces/SQLite";
 
 export const statsTableStructure: SQLTableColumn[] = [
   { name: "id", type: "ID" },
+  { name: "picture", type: "TEXT" },
   { name: "video_duration", type: "TEXT" },
   { name: "publish_date", type: "TEXT" },
   { name: "views", type: "TEXT" },
@@ -13,6 +14,7 @@ export const statsTableStructure: SQLTableColumn[] = [
 
 export const statsInitial = {
   id: "",
+  picture: "",
   video_duration: "",
   publish_date: "",
   views: "",
@@ -20,4 +22,13 @@ export const statsInitial = {
   comments: "",
   shares: "",
   saved: "",
+};
+
+export const statsLabelMapping: Record<string, string> = {
+  recommend: "Рекомендуем",
+  other: "Другое",
+  personal_profile: "Личний профиль",
+  sound: "Звук",
+  search: "Поиск",
+  subscribers: "Подписки",
 };

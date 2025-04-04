@@ -5,7 +5,7 @@ import { Image, Text, View } from "react-native";
 import Divider from "./Divider";
 import { useEffect, useState } from "react";
 import { getRowById } from "sqlite/queries/crud";
-import { statsInitial } from "sqlite/tables/statsTable";
+import { statsInitial } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
 
 export default function Stats() {

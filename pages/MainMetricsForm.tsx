@@ -1,18 +1,17 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, ScrollView } from "react-native";
+import { TextInput, Text, Keyboard, TouchableOpacity, View, ScrollView, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import uuid from "react-native-uuid";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/queries/table_crud";
+import { getAllRows, insertInto, getRowById } from "sqlite/queries/crud";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
-import { mainMetricsInitial, mainMetricsTableStructure } from "sqlite/tables/mainMetricsTable";
-import { Button } from "react-native";
+import { mainMetricsInitial, mainMetricsTableStructure } from "sqlite/tables/mainMetrics";
 
 type RootStackParamList = {
   Analytics: undefined;
+  TrafficOriginForm: undefined;
 };
 
 type FormProps = {
@@ -26,9 +25,7 @@ export default function MainMetricsForm({ navigation }: FormProps) {
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(mainMetrics) === JSON.stringify(mainMetricsInitial) || JSON.stringify(mainMetrics) === JSON.stringify(prevmainMetrics))
-        return;
-
+      if (JSON.stringify(mainMetrics) === JSON.stringify(prevmainMetrics)) return;
       await insertInto("main_metrics", { ...mainMetrics, id: id });
       setPrevmainMetrics(mainMetrics);
       Keyboard.dismiss();
@@ -114,7 +111,7 @@ export default function MainMetricsForm({ navigation }: FormProps) {
             className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
             onPress={async () => {
               await submitForm();
-              navigation.navigate("Analytics");
+              navigation.navigate("TrafficOriginForm");
             }}
           >
             <Text className="text-lg font-semibold color-white">Наступна форма</Text>
