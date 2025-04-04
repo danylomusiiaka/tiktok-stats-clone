@@ -14,12 +14,13 @@ export default function Thumbnail() {
     };
     fetchRowByID();
   }, []);
+
   return (
     <>
       <View className="mb-2 flex items-center justify-center">
         <View className="relative">
           <Image
-            source={stats?.picture ? { uri: stats.picture } : require("../assets/thumbnail.png")}
+            source={stats.picture ? { uri: stats.picture } : require("../assets/thumbnail.png")}
             style={{ width: 80, height: 114 }}
             className="rounded-md"
           />

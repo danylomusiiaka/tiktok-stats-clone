@@ -1,4 +1,5 @@
 import { openDatabaseAsync } from "expo-sqlite";
+import { getAllTables } from "./table_crud";
 
 const openDb = async () => {
   return await openDatabaseAsync("myDatabase.db");
@@ -47,13 +48,27 @@ export const getAllRows = async (tableName: string) => {
   const db = await openDb();
   const allRows = await db.getAllAsync(`SELECT * FROM ${tableName}`);
   if (allRows.length == 0) console.log("no data!");
-  for (const row of allRows) {
-    console.log(row);
-  }
+  // for (const row of allRows) {
+  //   console.log(row);
+  // }
+  return allRows;
 };
 
 export const deleteAllRows = async (tableName: string) => {
   const db = await openDb();
   await db.runAsync(`DROP TABLE ${tableName}`);
-  getAllRows(tableName);
+};
+
+export const deleteRowById = async (id: string) => {
+  try {
+    const db = await openDb();
+    const tables = (await getAllTables()) as Record<string, string>[];
+    for (const table of tables) {
+      await db.runAsync(`DELETE FROM ${table.name} WHERE id = '${id}'`);
+    }
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
 };

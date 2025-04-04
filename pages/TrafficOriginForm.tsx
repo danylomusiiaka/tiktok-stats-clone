@@ -39,6 +39,14 @@ export default function TraficOriginForm({ navigation }: FormProps) {
   }, []);
 
   useEffect(() => {
+    const handler = setTimeout(() => {
+      submitForm();
+    }, 800);
+
+    return () => clearTimeout(handler);
+  }, [trafficOrigin]);
+
+  useEffect(() => {
     const fetchtrafficOriginRow = async () => {
       if (id) {
         const trafficOrigin = await getRowById("trafficOrigin", id);
@@ -53,8 +61,7 @@ export default function TraficOriginForm({ navigation }: FormProps) {
       <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
         <View className="flex-row items-center bg-gray-100 py-2">
           <TouchableOpacity
-            onPress={async () => {
-              await submitForm();
+            onPress={() => {
               navigation.goBack();
             }}
           >

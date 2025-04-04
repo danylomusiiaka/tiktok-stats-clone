@@ -1,10 +1,10 @@
 import { TextInput, Text, Keyboard, TouchableOpacity, View, Button, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable } from "sqlite/queries/table_crud";
-import { insertInto, getRowById } from "sqlite/queries/crud";
+import { createTable, getAllTables } from "sqlite/queries/table_crud";
+import { insertInto, getRowById, deleteAllRows, getAllRows } from "sqlite/queries/crud";
 import { statsInitial, statsTableStructure } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
@@ -28,13 +28,20 @@ export default function StatsForm({ navigation }: FormProps) {
   const submitForm = async () => {
     try {
       if (JSON.stringify(stats) === JSON.stringify(prevStats)) return;
-      await insertInto("stats", { ...stats, id: id });
+      const date = new Date();
+      await insertInto("stats", { ...stats, id: id, lastUpdated: date.toString() });
       setPrevStats(stats);
-      Keyboard.dismiss();
     } catch (error) {
       console.error("Помилка бази даних:", error);
     }
   };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      submitForm();
+    }, 800);
+    return () => clearTimeout(handler);
+  }, [stats]);
 
   // Функція для вибору зображення з галереї
   const pickImage = async () => {
@@ -77,7 +84,7 @@ export default function StatsForm({ navigation }: FormProps) {
         if (statsData) {
           setStats(statsData);
 
-          if (statsData.picture && statsData.picture.startsWith("data:image")) {
+          if (statsData.picture) {
             setImagePreview(statsData.picture);
           }
         }
@@ -91,8 +98,7 @@ export default function StatsForm({ navigation }: FormProps) {
       <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
         <View className="flex-row items-center bg-gray-100 py-2">
           <TouchableOpacity
-            onPress={async () => {
-              await submitForm();
+            onPress={() => {
               navigation.goBack();
             }}
           >

@@ -32,11 +32,18 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
       };
       await insertInto("searchQueries", stringifiedData);
       setPrevSearchQueries(searchQueries);
-      Keyboard.dismiss();
     } catch (error) {
       console.error("Database error:", error);
     }
   };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      submitForm();
+    }, 800);
+
+    return () => clearTimeout(handler);
+  }, [searchQueries]);
 
   useEffect(() => {
     createTable("searchQueries", searchQueriesTableStructure);
@@ -46,11 +53,18 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
     const fetchSearchQueries = async () => {
       if (id) {
         const query = (await getRowById("searchQueries", id)) as Record<string, string>;
-        const parsedData = {
-          id: query.id,
-          query_values: JSON.parse(query.query_values),
-        };
-        setSearchQueries(parsedData);
+        if (query) {
+          const parsedData = {
+            id: query.id,
+            query_values: JSON.parse(query.query_values),
+          };
+          setSearchQueries(parsedData);
+        } else {
+          setSearchQueries({
+            id: id,
+            query_values: [{ name: "", value: "" }],
+          });
+        }
       }
     };
     fetchSearchQueries();
@@ -70,18 +84,17 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
   return (
     <SafeAreaView>
       <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-        <View className="flex-row items-center bg-gray-100 py-2">
+        <View className=" flex-row items-center bg-gray-100 py-2">
           <TouchableOpacity
-            onPress={async () => {
-              await submitForm();
+            onPress={() => {
               navigation.goBack();
             }}
           >
             <Chevron name="chevron-back" size={25} />
           </TouchableOpacity>
-          <Text className="ml-2 text-3xl font-semibold">Пошукові запити</Text>
+          <Text className="ml-2 text-3xl font-semibold ">Поисковые запросы</Text>
         </View>
-        <View className="flex p-3 pt-0">
+        <View className="flex p-3 pt-4">
           {searchQueries?.query_values?.map((pair, index) => (
             <View key={index} className="mb-4">
               <Text className="text-xl">Назва</Text>
@@ -130,7 +143,7 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
             getAllRows("searchQueries");
           }}
         />
-        <Button title="Delete all from searchQueries" onPress={() => deleteAllRows("searchQueries")} />
+        <Button title="Delete all from searchQueries" onPress={() => deleteAllRows("trafficOrigin")} />
         <Button title="Get all tables" onPress={() => getAllTables()} /> */}
       </ScrollView>
       <StatusBar />

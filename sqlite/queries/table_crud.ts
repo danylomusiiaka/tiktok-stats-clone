@@ -23,4 +23,7 @@ export const getAllTables = async () => {
   const db = await openDb();
   const result = await db.getAllAsync(`SELECT name FROM sqlite_master WHERE type='table';`);
   console.log(result);
+  return result
 };
+
+

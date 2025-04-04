@@ -8,7 +8,7 @@ type IdContextType = {
 const IDContext = createContext<IdContextType | undefined>(undefined);
 
 export const IDProvider = ({ children }: { children: React.ReactNode }) => {
-  const [id, setId] = useState<string>("");
+  const [id, setId] = useState("");
   return <IDContext.Provider value={{ id, setId }}>{children}</IDContext.Provider>;
 };
 

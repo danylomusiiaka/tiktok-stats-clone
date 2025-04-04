@@ -10,6 +10,7 @@ export const statsTableStructure: SQLTableColumn[] = [
   { name: "comments", type: "TEXT" },
   { name: "shares", type: "TEXT" },
   { name: "saved", type: "TEXT" },
+  { name: "lastUpdated", type: "TEXT" },
 ];
 
 export const statsInitial = {
@@ -22,6 +23,7 @@ export const statsInitial = {
   comments: "",
   shares: "",
   saved: "",
+  lastUpdated: "",
 };
 
 export const statsLabelMapping: Record<string, string> = {

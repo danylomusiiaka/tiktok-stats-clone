@@ -28,7 +28,6 @@ export default function MainMetricsForm({ navigation }: FormProps) {
       if (JSON.stringify(mainMetrics) === JSON.stringify(prevmainMetrics)) return;
       await insertInto("main_metrics", { ...mainMetrics, id: id });
       setPrevmainMetrics(mainMetrics);
-      Keyboard.dismiss();
     } catch (error) {
       console.error("Database error:", error);
     }
@@ -39,11 +38,17 @@ export default function MainMetricsForm({ navigation }: FormProps) {
   }, []);
 
   useEffect(() => {
+    const handler = setTimeout(() => {
+      submitForm();
+    }, 800);
+    return () => clearTimeout(handler);
+  }, [mainMetrics]);
+
+  useEffect(() => {
     const fetchMetricsRow = async () => {
       if (id) {
         const metrics = await getRowById("main_metrics", id);
         setmainMetrics(metrics as typeof mainMetricsInitial);
-        console.log(await getAllRows("main_metrics"));
       }
     };
     fetchMetricsRow();
@@ -54,8 +59,7 @@ export default function MainMetricsForm({ navigation }: FormProps) {
       <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
         <View className="flex-row items-center bg-gray-100 py-2">
           <TouchableOpacity
-            onPress={async () => {
-              await submitForm();
+            onPress={() => {
               navigation.goBack();
             }}
           >
