@@ -38,7 +38,7 @@ export default function AgeOfViewers() {
       {trafficData.map((item, index) => (
         <View key={index} className="mb-4">
           <View className="mb-2 flex-row justify-between">
-            <Text className="font-semibold">{item?.label}</Text>
+            <Text>{item?.label}</Text>
             <Text className="font-semibold">{parseInt(item?.value || "0").toFixed(1)}%</Text>
           </View>
           <View className="h-3 overflow-hidden rounded-sm bg-gray-200">

@@ -9,8 +9,10 @@ import SearchQueriesForm from "./pages/SearchTermsForm";
 import ViewersForm from "pages/ViewersForm";
 import ViewersGenderAgeForm from "pages/ViewersGender&AgeForm";
 import ViewersPlacesForm from "pages/ViewersPlacesForm";
+import FrequentWordsForm from "pages/FrequentWordsForm";
 import { IDProvider } from "./contexts/IdContext";
 import "./global.css";
+import "i18n/i18n";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +37,7 @@ export default function App() {
           <Stack.Screen name="ViewersForm" component={ViewersForm} />
           <Stack.Screen name="ViewersGenderAgeForm" component={ViewersGenderAgeForm} />
           <Stack.Screen name="ViewersPlacesForm" component={ViewersPlacesForm} />
+          <Stack.Screen name="FrequentWordsForm" component={FrequentWordsForm} />
 
           {/* Result of forms */}
           <Stack.Screen name="Analytics" component={Analytics} />

@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import Amount from "./Amount";
 import TypeOfViewers from "./TypeOfViewers";
 import Gender from "./Gender";
@@ -8,6 +8,7 @@ import PlacesOfViewers from "./PlacesOfViewers";
 export default function Viewers() {
   return (
     <View className="ml-3 flex">
+      
       <View className="ml-2 mt-2 w-[96vw] rounded-md bg-white p-4 pt-2">
         <Amount />
       </View>

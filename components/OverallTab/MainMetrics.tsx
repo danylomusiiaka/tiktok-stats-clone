@@ -1,12 +1,15 @@
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import Headline from "components/Headline";
 import { useID } from "contexts/IdContext";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { View, Text, TouchableOpacity } from "react-native";
 import { getRowById } from "sqlite/queries/crud";
 import { mainMetricsInitial, mainMetricsLabelMapping } from "sqlite/tables/mainMetrics";
 
 export const Plitki = () => {
+  const { t } = useTranslation();
+
   const [selectedMetric, setSelectedMetric] = useState("views");
   const [mainMetrics, setMainMetrics] = useState(mainMetricsInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -25,8 +28,11 @@ export const Plitki = () => {
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("MainMetricsForm")}>
-      <Headline name="Основные метрики" spacing="mb-0" />
-      <Text className="mb-4 text-sm text-gray-500">Обновлено {mainMetrics?.updated}</Text>
+      <Headline name={`${t("mainMetrics.title")}`} spacing="mb-0" />
+      <View className="mb-4 flex-row items-center">
+        <Text className=" text-sm text-gray-500">Обновлено </Text>
+        <Text className="text-sm font-semibold text-gray-500">{mainMetrics?.updated}.</Text>
+      </View>
       <View className="flex flex-row flex-wrap justify-between">
         {Object.entries(mainMetrics || mainMetricsInitial)
           .filter(([key]) => key !== "id" && key !== "updated")

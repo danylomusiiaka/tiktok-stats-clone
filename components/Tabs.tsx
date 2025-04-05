@@ -35,7 +35,7 @@ export default function Tabs({ activeTab, setActiveTab, tabs, setIsTabPressed, f
     <View className="relative flex-row border-b border-gray-200 bg-gray-100 px-4">
       {tabs.map((tab: string, index: number) => (
         <TouchableOpacity key={index} onPress={() => handleTabPress(index)} className="flex-1 items-center justify-center py-3">
-          <Text className={`text-base ${activeTab === index ? "font-bold text-black" : "font-medium text-gray-500"}`}>{tab}</Text>
+          <Text className={`text-[15px] ${activeTab === index ? "text-black" : "text-gray-500"}`}>{tab}</Text>
         </TouchableOpacity>
       ))}
 

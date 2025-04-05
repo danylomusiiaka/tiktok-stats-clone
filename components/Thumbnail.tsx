@@ -29,7 +29,7 @@ export default function Thumbnail() {
             className="rounded-md"
           />
           <View className="absolute bottom-0 left-0 right-0 px-1 pb-2">
-            <Text className="text-center font-bold text-white">{stats?.video_duration || 0}</Text>
+            <Text className="text-center font-medium text-white">{stats?.video_duration || 0}</Text>
           </View>
         </View>
       </View>

@@ -8,6 +8,7 @@ import { getAllRows, insertInto, getRowById } from "sqlite/queries/crud";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
 import { mainMetricsInitial, mainMetricsTableStructure } from "sqlite/tables/mainMetrics";
+import { Header } from "components/Header";
 
 type RootStackParamList = {
   Analytics: undefined;
@@ -25,7 +26,7 @@ export default function MainMetricsForm({ navigation }: FormProps) {
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(mainMetrics) === JSON.stringify(prevmainMetrics)) return;
+      if (JSON.stringify(mainMetrics) === JSON.stringify(prevmainMetrics) || !mainMetrics) return;
       await insertInto("main_metrics", { ...mainMetrics, id: id });
       setPrevmainMetrics(mainMetrics);
     } catch (error) {
@@ -61,16 +62,7 @@ export default function MainMetricsForm({ navigation }: FormProps) {
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView>
         <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-          <View className="flex-row items-center bg-gray-100 py-2">
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Chevron name="chevron-back" size={25}></Chevron>
-            </TouchableOpacity>
-            <Text className="ml-2 text-3xl font-semibold">Основные метрики</Text>
-          </View>
+          <Header>Основные метрики</Header>
           <View className="flex p-3 pt-0">
             <Text className="mt-3 text-xl">Обновлено</Text>
             <TextInput

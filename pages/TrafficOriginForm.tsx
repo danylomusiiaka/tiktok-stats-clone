@@ -8,6 +8,7 @@ import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/querie
 import { trafficOriginInitial, trafficOriginTableStructure } from "sqlite/tables/trafficOrigin";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
+import { Header } from "components/Header";
 
 type RootStackParamList = {
   Analytics: undefined;
@@ -25,7 +26,7 @@ export default function TraficOriginForm({ navigation }: FormProps) {
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(trafficOrigin) === JSON.stringify(prevtrafficOrigin)) return;
+      if (JSON.stringify(trafficOrigin) === JSON.stringify(prevtrafficOrigin) || !trafficOrigin) return;
       await insertInto("trafficOrigin", { ...trafficOrigin, id: id });
       setPrevTrafficOrigin(trafficOrigin);
       Keyboard.dismiss();
@@ -60,16 +61,8 @@ export default function TraficOriginForm({ navigation }: FormProps) {
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView>
         <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-          <View className="flex-row items-center bg-gray-100 py-2">
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Chevron name="chevron-back" size={25}></Chevron>
-            </TouchableOpacity>
-            <Text className="ml-2 text-3xl font-semibold">Источники трафика</Text>
-          </View>
+          <Header>Источники трафика</Header>
+
           <View className="flex p-3 pt-0">
             <Text className="mt-3 text-xl">Рекомендуем</Text>
             <View className="flex-row items-center">

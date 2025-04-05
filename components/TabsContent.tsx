@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import { Dimensions, FlatList, Text, View } from "react-native";
+import { FlatList } from "react-native";
 import Overall from "./OverallTab/OverallContent";
 import { TabsContentProps } from "interfaces/TabsInterface";
 import Viewers from "./ViewersTab/ViewersContent";
-const { width } = Dimensions.get("window");
+import Engagement from "./EngagementTab/EngagementContent";
 
 export default function TabsContent({ setActiveTab, tabs, isTabPressed, flatListRef }: TabsContentProps) {
   const handleViewableItemsChanged = useRef(
@@ -27,12 +27,7 @@ export default function TabsContent({ setActiveTab, tabs, isTabPressed, flatList
       case 1: // Зрители
         return <Viewers />;
       case 2: // Вовлеченность
-        return (
-          <View  className="p-4">
-            <Text className="text-lg font-medium">Данные о вовлеченности</Text>
-            <Text className="mt-2">Здесь отображается информация о том, как зрители взаимодействуют с видео.</Text>
-          </View>
-        );
+        return <Engagement />;
       default:
         return null;
     }

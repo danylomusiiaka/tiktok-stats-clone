@@ -18,7 +18,7 @@ export default function Gender() {
     const data = await getRowById("viewersGenderAge", id);
     setGenderAgeViewers(data as typeof viewersGenderAgeInitial);
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchRowByID();
@@ -39,7 +39,7 @@ export default function Gender() {
         {data.map((item, index) => (
           <View key={item.id} className="flex-row items-center border-b border-gray-200 pb-2">
             <View className="m-3.5 my-5 ml-0 h-3 w-3 rounded-full" style={{ backgroundColor: item.color }} />
-            <Text className="flex-1 text-base font-semibold">{item.label}</Text>
+            <Text className="flex-1 text-base font">{item.label}</Text>
             <Text className="text-base font-semibold">{item.percentage}%</Text>
           </View>
         ))}

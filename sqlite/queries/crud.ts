@@ -43,9 +43,17 @@ export const insertInto = async (tableName: string, obj: Record<string, string>)
 };
 
 export const getRowById = async (tableName: string, id: string) => {
-  const db = await openDb();
-  const specificRow = await db.getFirstAsync(`SELECT * FROM ${tableName} WHERE id = '${id}'`);
-  return specificRow;
+  try {
+    const db = await openDb();
+    if (id) {
+      const specificRow = await db.getFirstAsync(`SELECT * FROM ${tableName} WHERE id = '${id}'`);
+      return specificRow;
+    }
+  } catch (error) {
+    console.log("here");
+
+    console.log(error);
+  }
 };
 
 export const getAllRows = async (tableName: string) => {

@@ -9,6 +9,7 @@ import { statsInitial, statsTableStructure } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
+import { Header } from "components/Header";
 
 type RootStackParamList = {
   Analytics: undefined;
@@ -27,7 +28,7 @@ export default function StatsForm({ navigation }: FormProps) {
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(stats) === JSON.stringify(prevStats)) return;
+      if (JSON.stringify(stats) === JSON.stringify(prevStats) || !stats) return;
       const date = new Date();
       await insertInto("stats", { ...stats, id: id, lastUpdated: date.toString() });
       setPrevStats(stats);
@@ -97,16 +98,7 @@ export default function StatsForm({ navigation }: FormProps) {
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <SafeAreaView>
         <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-          <View className="flex-row items-center bg-gray-100 py-2">
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Chevron name="chevron-back" size={25}></Chevron>
-            </TouchableOpacity>
-            <Text className="ml-2 text-3xl font-semibold">Загальна статистика</Text>
-          </View>
+          <Header>Загальна статистика</Header>
           <View className="flex p-3 pt-0">
             <Text className="mt-3 text-xl">Обкладинка відео</Text>
 

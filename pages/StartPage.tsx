@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -7,10 +7,11 @@ import Clock from "react-native-vector-icons/FontAwesome6";
 import Chevron from "react-native-vector-icons/Ionicons";
 import { useID } from "contexts/IdContext";
 import uuid from "react-native-uuid";
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { deleteRowById, getAllRows } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 type RootStackParamList = {
   StatsForm: undefined;
@@ -22,6 +23,10 @@ type StartPageProps = {
 
 export default function StartPage({ navigation }: StartPageProps) {
   const { setId } = useID();
+  const { i18n } = useTranslation();
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   const [history, setHistory] = useState([statsInitial]);
 
@@ -86,6 +91,9 @@ export default function StartPage({ navigation }: StartPageProps) {
           <Plus name="plus" size={25} color="white" />
           <Text className="ml-2 text-xl font-semibold text-white">Створити аналіз відео</Text>
         </TouchableOpacity>
+        {/* <Button title="English" onPress={() => changeLanguage("en")} />
+        <Button title="Русский" onPress={() => changeLanguage("ua")} /> */}
+
         <View className="my-5 border border-b border-gray-300"></View>
         <View className="mt-4 flex-row items-center">
           <Clock name="clock-rotate-left" size={25} />
