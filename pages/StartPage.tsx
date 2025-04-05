@@ -65,7 +65,6 @@ export default function StartPage({ navigation }: StartPageProps) {
     try {
       const success = await deleteRowById(id);
       if (success) {
-        console.log("Item deleted:", id);
         setHistory(history.filter((item) => item.id !== id));
       }
     } catch (error) {
@@ -80,7 +79,6 @@ export default function StartPage({ navigation }: StartPageProps) {
           className="mt-2 flex-row items-center justify-center rounded-md bg-green-600 py-4"
           onPress={() => {
             const newId = uuid.v4().toString();
-            console.log("Creating new analysis with ID:", newId);
             setId(newId);
             navigation.navigate("StatsForm");
           }}
@@ -100,9 +98,8 @@ export default function StartPage({ navigation }: StartPageProps) {
             key={item.id}
             className="mt-4 flex-row items-center justify-between rounded-md border-2 border-gray-300"
             onPress={() => {
-              console.log("Selected item:", item.id);
               setId(item.id);
-              navigation.navigate("StatsForm");
+              navigation.navigate("Analytics");
             }}
             onLongPress={() => handleDeleteItem(item.id)}
           >

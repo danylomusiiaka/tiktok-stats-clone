@@ -1,30 +1,43 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
+import { useID } from "contexts/IdContext";
+import { useEffect, useState } from "react";
+import { viewersPlacesInitial } from "sqlite/tables/viewersPlaces";
+import { getRowById } from "sqlite/queries/crud";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-const trafficData = [
-  { label: "Россия", value: 43.4 },
-  { label: "Украина", value: 17.8 },
-  { label: "Другое", value: 12.6 },
-  { label: "Казахстан", value: 7.5 },
-  { label: "Беларусь", value: 4.4 },
-  { label: "Соединенные Штаты", value: 3.7 },
-];
+export default function PlacesOfViewers() {
+  const [viewersPlaces, setViewersPlaces] = useState(viewersPlacesInitial);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-export default function AgeOfViewers() {
+  const { id } = useID();
+
+  useEffect(() => {
+    const fetchRowByID = async () => {
+      const data = (await getRowById("viewersPlaces", id)) as Record<string, string>;
+      const parsedData = {
+        id: data.id,
+        query_values: JSON.parse(data.query_values),
+      };
+      setViewersPlaces(parsedData as typeof viewersPlacesInitial);
+    };
+    fetchRowByID();
+  }, [id]);
+
   return (
-    <>
+    <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersPlacesForm")}>
       <Headline name="Места" />
-      {trafficData.map((item, index) => (
+      {viewersPlaces.query_values.map((item, index) => (
         <View key={index} className="mb-4">
           <View className="mb-2 flex-row justify-between">
-            <Text className="font-semibold">{item.label}</Text>
-            <Text className="font-semibold">{item.value.toFixed(1)}%</Text>
+            <Text className="font-semibold">{item.name}</Text>
+            <Text className="font-semibold">{parseInt(item.value || "0").toFixed(1)}%</Text>
           </View>
           <View className="h-3 overflow-hidden rounded-sm bg-gray-200">
-            <View className="h-full rounded-sm bg-blue-500" style={{ width: `${item.value}%` }} />
+            <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(item.value)}%` }} />
           </View>
         </View>
       ))}
-    </>
+    </TouchableOpacity>
   );
 }

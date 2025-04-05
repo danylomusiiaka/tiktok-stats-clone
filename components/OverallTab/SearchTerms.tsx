@@ -1,20 +1,23 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
 import { useEffect, useState } from "react";
 import { searchQueriesInitial } from "sqlite/tables/searchTerms";
 import { getRowById } from "sqlite/queries/crud";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export default function SearchTerms() {
   const [searchTerms, setSearchTerms] = useState(searchQueriesInitial);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const { id } = useID();
 
   useEffect(() => {
     const fetchRowByID = async () => {
-      const data = await getRowById("searchQueries", id) as Record<string, string>;
+      const data = (await getRowById("searchQueries", id)) as Record<string, string>;
       const parsedData = {
         id: data.id,
-        query_values: JSON.parse(data.query_values)
+        query_values: JSON.parse(data.query_values),
       };
       setSearchTerms(parsedData);
     };
@@ -22,7 +25,7 @@ export default function SearchTerms() {
   }, [id]);
 
   return (
-    <>
+    <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("SearchQueriesForm")}>
       <Headline name="Поисковые запросы" />
       {searchTerms.query_values?.map((term, index) => (
         <View key={index} className="mb-4">
@@ -35,6 +38,6 @@ export default function SearchTerms() {
           </View>
         </View>
       ))}
-    </>
+    </TouchableOpacity>
   );
 }

@@ -4,7 +4,6 @@ import { TabsProps } from "interfaces/TabsInterface";
 const { width } = Dimensions.get("window");
 
 export default function Tabs({ activeTab, setActiveTab, tabs, setIsTabPressed, flatListRef }: TabsProps) {
-
   const tabPositionX = useRef(new Animated.Value(0)).current;
 
   // Update indicator position when active tab changes
@@ -21,8 +20,8 @@ export default function Tabs({ activeTab, setActiveTab, tabs, setIsTabPressed, f
   const handleTabPress = (index: number) => {
     setIsTabPressed(true);
     setActiveTab(index);
-    flatListRef.current?.scrollToIndex({
-      index,
+    flatListRef.current?.scrollToOffset({
+      offset: index * width,
       animated: false,
     });
 
@@ -31,8 +30,6 @@ export default function Tabs({ activeTab, setActiveTab, tabs, setIsTabPressed, f
       setIsTabPressed(false);
     }, 50);
   };
-
-  
 
   return (
     <View className="relative flex-row border-b border-gray-200 bg-gray-100 px-4">

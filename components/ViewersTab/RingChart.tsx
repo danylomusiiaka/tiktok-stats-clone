@@ -1,14 +1,7 @@
-import Headline from "components/Headline";
 import { View, Text } from "react-native";
-import Svg, { Path, G } from "react-native-svg";
+import Svg, { G, Path } from "react-native-svg";
 
-export default function GenderDistributionChart() {
-  const data = [
-    { id: 1, label: "Мужской", percentage: 85, color: "#0078D7" },
-    { id: 2, label: "Женский", percentage: 15, color: "#88C0F0" },
-    { id: 3, label: "Другое", percentage: 1, color: "#F0F0F0" },
-  ];
-
+export default function RingChart({ data }: { data: RingChartData[] }) {
   // Параметри для діаграми
   const radius = 80;
   const strokeWidth = 30;
@@ -37,7 +30,7 @@ export default function GenderDistributionChart() {
   let startAngle = -90;
   const segments = data.map((item) => {
     // Обчислюємо кут сегмента на основі відсотка
-    const arcAngle = item.percentage * 1.8; // 180 градусів * процент / 100
+    const arcAngle = Number(item.percentage) * 1.8; // 180 градусів * процент / 100
 
     // Додаємо проміжок, зменшуючи кут сегмента
     const adjustedStartAngle = startAngle + gapInDegrees / 2;
@@ -61,28 +54,14 @@ export default function GenderDistributionChart() {
   });
 
   return (
-    <View>
-      <Headline name="Пол" infoAvaliable={false} />
-
-      <View className="mb-5 items-center">
-        <Svg height={center + strokeWidth} width={viewBox} viewBox={`0 0 ${viewBox} ${center + strokeWidth / 2}`}>
-          <G>
-            {segments.map((segment) => (
-              <Path key={segment.id} d={segment.path} stroke={segment.color} strokeWidth={strokeWidth} fill="none" />
-            ))}
-          </G>
-        </Svg>
-      </View>
-
-      <View className="mt-2.5">
-        {data.map((item, index) => (
-          <View key={item.id} className={`flex-row items-center ${index !== data.length - 1 ? "border-b border-gray-200 pb-2" : ""}`}>
-            <View className="m-3.5 my-5 ml-0 h-3 w-3 rounded-full" style={{ backgroundColor: item.color }} />
-            <Text className="flex-1 text-base font-semibold">{item.label}</Text>
-            <Text className="text-base font-semibold">{item.percentage}%</Text>
-          </View>
-        ))}
-      </View>
+    <View className="mb-5 items-center">
+      <Svg height={center + strokeWidth} width={viewBox} viewBox={`0 0 ${viewBox} ${center + strokeWidth / 2}`}>
+        <G>
+          {segments.map((segment) => (
+            <Path key={segment.id} d={segment.path} stroke={segment.color} strokeWidth={strokeWidth} fill="none" />
+          ))}
+        </G>
+      </Svg>
     </View>
   );
 }

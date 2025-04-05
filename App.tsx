@@ -6,6 +6,9 @@ import MainMetricsForm from "./pages/MainMetricsForm";
 import StartPage from "./pages/StartPage";
 import TrafficOriginForm from "./pages/TrafficOriginForm";
 import SearchQueriesForm from "./pages/SearchTermsForm";
+import ViewersForm from "pages/ViewersForm";
+import ViewersGenderAgeForm from "pages/ViewersGender&AgeForm";
+import ViewersPlacesForm from "pages/ViewersPlacesForm";
 import { IDProvider } from "./contexts/IdContext";
 import "./global.css";
 
@@ -29,6 +32,9 @@ export default function App() {
           <Stack.Screen name="MainMetricsForm" component={MainMetricsForm} />
           <Stack.Screen name="TrafficOriginForm" component={TrafficOriginForm} />
           <Stack.Screen name="SearchQueriesForm" component={SearchQueriesForm} />
+          <Stack.Screen name="ViewersForm" component={ViewersForm} />
+          <Stack.Screen name="ViewersGenderAgeForm" component={ViewersGenderAgeForm} />
+          <Stack.Screen name="ViewersPlacesForm" component={ViewersPlacesForm} />
 
           {/* Result of forms */}
           <Stack.Screen name="Analytics" component={Analytics} />

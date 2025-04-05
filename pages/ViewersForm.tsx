@@ -1,59 +1,57 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, Button, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, Keyboard, TouchableOpacity, View, ScrollView, Button, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
-import { trafficOriginInitial, trafficOriginTableStructure } from "sqlite/tables/trafficOrigin";
+import { createTable } from "sqlite/queries/table_crud";
+import { getAllRows, insertInto, getRowById } from "sqlite/queries/crud";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
+import { viewersInitial, viewersTableStructure } from "sqlite/tables/viewers";
 
 type RootStackParamList = {
   Analytics: undefined;
-  SearchQueriesForm: undefined;
+  ViewersGenderAgeForm: undefined;
 };
 
 type FormProps = {
   navigation: StackNavigationProp<RootStackParamList>;
 };
 
-export default function TraficOriginForm({ navigation }: FormProps) {
-  const [prevtrafficOrigin, setPrevTrafficOrigin] = useState(trafficOriginInitial);
-  const [trafficOrigin, setTrafficOrigin] = useState(trafficOriginInitial);
+export default function ViewersForm({ navigation }: FormProps) {
+  const [prevviewers, setPrevviewers] = useState(viewersInitial);
+  const [viewers, setviewers] = useState(viewersInitial);
   const { id } = useID();
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(trafficOrigin) === JSON.stringify(prevtrafficOrigin)) return;
-      await insertInto("trafficOrigin", { ...trafficOrigin, id: id });
-      setPrevTrafficOrigin(trafficOrigin);
-      Keyboard.dismiss();
+      if (JSON.stringify(viewers) === JSON.stringify(prevviewers)) return;
+      await insertInto("viewers", { ...viewers, id: id });
+      setPrevviewers(viewers);
     } catch (error) {
       console.error("Database error:", error);
     }
   };
 
   useEffect(() => {
-    createTable("trafficOrigin", trafficOriginTableStructure);
+    createTable("viewers", viewersTableStructure);
   }, []);
 
   useEffect(() => {
     const handler = setTimeout(() => {
       submitForm();
     }, 800);
-
     return () => clearTimeout(handler);
-  }, [trafficOrigin]);
+  }, [viewers]);
 
   useEffect(() => {
-    const fetchtrafficOriginRow = async () => {
+    const fetchMetricsRow = async () => {
       if (id) {
-        const trafficOrigin = await getRowById("trafficOrigin", id);
-        setTrafficOrigin(trafficOrigin as typeof trafficOriginInitial);
+        const metrics = await getRowById("viewers", id);
+        setviewers(metrics as typeof viewersInitial);
       }
     };
-    fetchtrafficOriginRow();
+    fetchMetricsRow();
   }, [id]);
 
   return (
@@ -68,75 +66,72 @@ export default function TraficOriginForm({ navigation }: FormProps) {
             >
               <Chevron name="chevron-back" size={25}></Chevron>
             </TouchableOpacity>
-            <Text className="ml-2 text-3xl font-semibold">Источники трафика</Text>
+            <Text className="ml-2 text-3xl font-semibold">Зрители</Text>
           </View>
           <View className="flex p-3 pt-0">
-            <Text className="mt-3 text-xl">Рекомендуем</Text>
+            <Text className="mt-3 text-xl">Всего зрителей</Text>
+            <TextInput
+              value={viewers?.total}
+              className="h-13 my-2 w-full rounded-md border border-gray-400 p-3  text-[16px]"
+              onChangeText={(value) => setviewers({ ...viewers, total: value })}
+              placeholder="напр. 523462"
+            />
+            <Text className="text-xl">В сравнении с вчерашним днем</Text>
+            <TextInput
+              value={viewers?.compared_to}
+              className="h-13 my-2 w-full rounded border border-gray-400 p-3  text-[16px]"
+              onChangeText={(value) => setviewers({ ...viewers, compared_to: value })}
+              placeholder="напр. 523"
+            />
+            <View className="my-5 flex-row items-center">
+              <Text className="mr-2 text-2xl font-medium">Типы зрителей</Text>
+              <View style={{ flex: 1, height: 2, backgroundColor: "#D1D5DB" }} />
+            </View>
+            <Text className="text-xl">Новые зрители</Text>
             <View className="flex-row items-center">
               <TextInput
-                value={trafficOrigin?.recommend}
+                value={viewers?.new_viewers}
                 className="h-13 my-2 flex-1 rounded border border-gray-400 p-3 text-[16px]"
-                onChangeText={(value) => setTrafficOrigin({ ...trafficOrigin, recommend: value })}
+                onChangeText={(value) => setviewers({ ...viewers, new_viewers: value })}
                 placeholder="напр. 83"
               />
               <Text className="ml-2 text-xl">%</Text>
             </View>
-            <Text className="text-xl">Другое</Text>
+            <Text className="text-xl">Вернувшиеся зрители</Text>
             <View className="flex-row items-center">
               <TextInput
-                value={trafficOrigin?.other}
+                value={viewers?.old_viewers}
                 className="h-13 my-2 flex-1 rounded border border-gray-400 p-3 text-[16px]"
-                onChangeText={(value) => setTrafficOrigin({ ...trafficOrigin, other: value })}
-                placeholder="напр. 24"
+                onChangeText={(value) => setviewers({ ...viewers, old_viewers: value })}
+                placeholder="напр. 27"
               />
               <Text className="ml-2 text-xl">%</Text>
             </View>
-            <Text className="text-xl">Личный профиль</Text>
+            <Text className="text-xl">Не подписанные</Text>
             <View className="flex-row items-center">
               <TextInput
-                value={trafficOrigin?.personal_profile}
+                value={viewers?.not_subscribed}
                 className="h-13 my-2 flex-1 rounded border border-gray-400 p-3 text-[16px]"
-                onChangeText={(value) => setTrafficOrigin({ ...trafficOrigin, personal_profile: value })}
-                placeholder="напр. 21"
+                onChangeText={(value) => setviewers({ ...viewers, not_subscribed: value })}
+                placeholder="напр. 90"
               />
               <Text className="ml-2 text-xl">%</Text>
             </View>
-            <Text className="text-xl">Звук</Text>
+            <Text className="text-xl">Подписчики</Text>
             <View className="flex-row items-center">
               <TextInput
-                value={trafficOrigin?.sound}
+                value={viewers?.subscribed}
                 className="h-13 my-2 flex-1 rounded border border-gray-400 p-3 text-[16px]"
-                onChangeText={(value) => setTrafficOrigin({ ...trafficOrigin, sound: value })}
-                placeholder="напр. 12"
+                onChangeText={(value) => setviewers({ ...viewers, subscribed: value })}
+                placeholder="напр. 10"
               />
               <Text className="ml-2 text-xl">%</Text>
             </View>
-            <Text className="text-xl">Поиск</Text>
-            <View className="flex-row items-center">
-              <TextInput
-                value={trafficOrigin?.search}
-                className="h-13 my-2 flex-1 rounded border border-gray-400 p-3 text-[16px]"
-                onChangeText={(value) => setTrafficOrigin({ ...trafficOrigin, search: value })}
-                placeholder="напр. 2"
-              />
-              <Text className="ml-2 text-xl">%</Text>
-            </View>
-            <Text className="text-xl">Подписки</Text>
-            <View className="flex-row items-center">
-              <TextInput
-                value={trafficOrigin?.subscribers}
-                className="h-13 my-2 flex-1 rounded border border-gray-400 p-3 text-[16px]"
-                onChangeText={(value) => setTrafficOrigin({ ...trafficOrigin, subscribers: value })}
-                placeholder="напр. 54"
-              />
-              <Text className="ml-2 text-xl">%</Text>
-            </View>
-
             <TouchableOpacity
               className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
               onPress={async () => {
                 await submitForm();
-                navigation.navigate("SearchQueriesForm");
+                navigation.navigate("ViewersGenderAgeForm");
               }}
             >
               <Text className="text-lg font-semibold color-white">Наступна форма</Text>
@@ -150,15 +145,14 @@ export default function TraficOriginForm({ navigation }: FormProps) {
             >
               <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
             </TouchableOpacity>
-
             {/* Admin Buttons */}
             {/* <Button
-              title="Get all from trafficOrigin"
+              title="Get all from viewers"
               onPress={() => {
-                getAllRows("trafficOrigin");
+                getAllRows("viewers");
               }}
             />
-            <Button title="Delete all from trafficOrigin" onPress={() => deleteAllRows("trafficOrigin")} />
+            <Button title="Delete all from viewers" onPress={() => deleteAllRows("viewers")} />
             <Button title="Get all tables" onPress={() => getAllTables()} /> */}
           </View>
         </ScrollView>

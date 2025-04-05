@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { createTable, getAllTables } from "sqlite/queries/table_crud";
 import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
-import { searchQueriesInitial, searchQueriesTableStructure } from "sqlite/tables/searchTerms";
+import { viewersPlacesInitial, viewersPlacesTableStructure } from "sqlite/tables/viewersPlaces";
 import { useID } from "contexts/IdContext";
 import Chevron from "react-native-vector-icons/Ionicons";
 
@@ -18,20 +18,20 @@ type FormProps = {
   navigation: StackNavigationProp<RootStackParamList>;
 };
 
-export default function SearchQueriesForm({ navigation }: FormProps) {
-  const [prevSearchQueries, setPrevSearchQueries] = useState(searchQueriesInitial);
-  const [searchQueries, setSearchQueries] = useState(searchQueriesInitial);
+export default function ViewersPlacesForm({ navigation }: FormProps) {
+  const [prevviewersPlaces, setPrevviewersPlaces] = useState(viewersPlacesInitial);
+  const [viewersPlaces, setviewersPlaces] = useState(viewersPlacesInitial);
   const { id } = useID();
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(searchQueries) === JSON.stringify(prevSearchQueries)) return;
+      if (JSON.stringify(viewersPlaces) === JSON.stringify(prevviewersPlaces)) return;
       const stringifiedData = {
         id: id,
-        query_values: JSON.stringify(searchQueries.query_values),
+        query_values: JSON.stringify(viewersPlaces.query_values),
       };
-      await insertInto("searchQueries", stringifiedData);
-      setPrevSearchQueries(searchQueries);
+      await insertInto("viewersPlaces", stringifiedData);
+      setPrevviewersPlaces(viewersPlaces);
     } catch (error) {
       console.error("Database error:", error);
     }
@@ -43,42 +43,42 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
     }, 800);
 
     return () => clearTimeout(handler);
-  }, [searchQueries]);
+  }, [viewersPlaces]);
 
   useEffect(() => {
-    createTable("searchQueries", searchQueriesTableStructure);
+    createTable("viewersPlaces", viewersPlacesTableStructure);
   }, []);
 
   useEffect(() => {
-    const fetchSearchQueries = async () => {
+    const fetchviewersPlaces = async () => {
       if (id) {
-        const query = (await getRowById("searchQueries", id)) as Record<string, string>;
+        const query = (await getRowById("viewersPlaces", id)) as Record<string, string>;
         if (query) {
           const parsedData = {
             id: query.id,
             query_values: JSON.parse(query.query_values),
           };
-          setSearchQueries(parsedData);
+          setviewersPlaces(parsedData);
         } else {
-          setSearchQueries({
+          setviewersPlaces({
             id: id,
             query_values: [{ name: "", value: "" }],
           });
         }
       }
     };
-    fetchSearchQueries();
+    fetchviewersPlaces();
   }, [id]);
 
   const updatePair = (index: number, key: "name" | "value", text: string) => {
-    const newPairs = [...searchQueries.query_values];
+    const newPairs = [...viewersPlaces.query_values];
     newPairs[index] = { ...newPairs[index], [key]: text };
-    setSearchQueries({ ...searchQueries, query_values: newPairs });
+    setviewersPlaces({ ...viewersPlaces, query_values: newPairs });
   };
 
   const addPair = () => {
-    const currentSearchQueries = searchQueries || searchQueriesInitial;
-    setSearchQueries({ ...currentSearchQueries, query_values: [...currentSearchQueries.query_values, { name: "", value: "" }] });
+    const currentviewersPlaces = viewersPlaces || viewersPlacesInitial;
+    setviewersPlaces({ ...currentviewersPlaces, query_values: [...currentviewersPlaces.query_values, { name: "", value: "" }] });
   };
 
   return (
@@ -93,17 +93,17 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
             >
               <Chevron name="chevron-back" size={25} />
             </TouchableOpacity>
-            <Text className="ml-2 text-3xl font-semibold ">Поисковые запросы</Text>
+            <Text className="ml-2 text-3xl font-semibold">Места</Text>
           </View>
           <View className="flex p-3 pt-4">
-            {searchQueries?.query_values?.map((pair, index) => (
+            {viewersPlaces?.query_values?.map((pair, index) => (
               <View key={index} className="mb-4">
                 <Text className="text-xl">Назва</Text>
                 <TextInput
                   value={pair.name}
                   className="h-13 my-2 w-full rounded-md border border-gray-400 p-3 text-[16px]"
                   onChangeText={(text) => updatePair(index, "name", text)}
-                  placeholder="Наприклад, 'Рекомендуємо'"
+                  placeholder="напр. Украина"
                 />
                 <Text className="text-xl">Значення</Text>
                 <View className="flex-row items-center">
@@ -124,7 +124,7 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
               className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
               onPress={async () => {
                 await submitForm();
-                navigation.navigate("ViewersForm");
+                navigation.navigate("Analytics");
               }}
             >
               <Text className="text-lg font-semibold color-white">Наступна форма</Text>
@@ -142,12 +142,12 @@ export default function SearchQueriesForm({ navigation }: FormProps) {
 
           {/* Admin Buttons */}
           {/* <Button
-            title="Get all from searchQueries"
+            title="Get all from viewersPlaces"
             onPress={() => {
-              getAllRows("searchQueries");
+              getAllRows("viewersPlaces");
             }}
           />
-          <Button title="Delete all from searchQueries" onPress={() => deleteAllRows("trafficOrigin")} />
+          <Button title="Delete all from viewersPlaces" onPress={() => deleteAllRows("trafficOrigin")} />
           <Button title="Get all tables" onPress={() => getAllTables()} /> */}
         </ScrollView>
         <StatusBar />

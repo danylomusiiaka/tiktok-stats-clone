@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import Amount from "./Amount";
 import TypeOfViewers from "./TypeOfViewers";
-import GenderCharts from "./GenderCharts";
+import Gender from "./Gender";
 import AgeOfViewers from "./AgeOfViewers";
 import PlacesOfViewers from "./PlacesOfViewers";
 
@@ -15,7 +15,7 @@ export default function Viewers() {
         <TypeOfViewers />
       </View>
       <View className="ml-2 mt-2 w-[96vw] rounded-md bg-white p-4 pt-2">
-        <GenderCharts />
+        <Gender />
       </View>
       <View className="ml-2 mt-2 w-[96vw] rounded-md bg-white p-4 pt-2">
         <AgeOfViewers />

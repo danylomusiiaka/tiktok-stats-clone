@@ -1,3 +1,4 @@
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Headline from "components/Headline";
 import { useID } from "contexts/IdContext";
 import { useEffect, useState } from "react";
@@ -8,6 +9,8 @@ import { mainMetricsInitial, mainMetricsLabelMapping } from "sqlite/tables/mainM
 export const Plitki = () => {
   const [selectedMetric, setSelectedMetric] = useState("views");
   const [mainMetrics, setMainMetrics] = useState(mainMetricsInitial);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const { id } = useID();
   useEffect(() => {
     const fetchRowByID = async () => {
@@ -18,7 +21,7 @@ export const Plitki = () => {
   }, [id]);
 
   return (
-    <>
+    <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("MainMetricsForm")}>
       <Headline name="Основные метрики" spacing="mb-0" />
       <Text className="mb-4 text-sm text-gray-500">Обновлено {mainMetrics?.updated}</Text>
       <View className="flex flex-row flex-wrap justify-between">
@@ -33,11 +36,11 @@ export const Plitki = () => {
             >
               <Text>{mainMetricsLabelMapping[key]}</Text>
               <Text className="text-2xl font-bold" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
-                {value}
+                {value || 0}
               </Text>
             </TouchableOpacity>
           ))}
       </View>
-    </>
+    </TouchableOpacity>
   );
 };

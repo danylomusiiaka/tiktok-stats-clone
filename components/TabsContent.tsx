@@ -28,7 +28,7 @@ export default function TabsContent({ setActiveTab, tabs, isTabPressed, flatList
         return <Viewers />;
       case 2: // Вовлеченность
         return (
-          <View style={{ width }} className="p-4">
+          <View  className="p-4">
             <Text className="text-lg font-medium">Данные о вовлеченности</Text>
             <Text className="mt-2">Здесь отображается информация о том, как зрители взаимодействуют с видео.</Text>
           </View>

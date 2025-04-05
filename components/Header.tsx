@@ -1,15 +1,10 @@
-import { StackNavigationProp } from "@react-navigation/stack";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from "react-native";
 import Chevron from "react-native-vector-icons/Ionicons";
 
-type RootStackParamList = {
-  Form: undefined;
-};
-type AnalyticsProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Form">;
-};
+export function Header() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-export function Header({ navigation }: AnalyticsProps) {
   return (
     <View className="flex-row items-center justify-center  px-4 py-4">
       <TouchableOpacity className="absolute left-4 p-2" onPress={() => navigation.goBack()}>
