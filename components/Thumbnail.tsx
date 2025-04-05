@@ -1,26 +1,30 @@
 import { useID } from "contexts/IdContext";
 import { getRowById } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Thumbnail() {
   const [stats, setStats] = useState(statsInitial);
   const { id } = useID();
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const stats = await getRowById("stats", id);
-      setStats(stats as typeof statsInitial);
-    };
-    fetchRowByID();
-  }, []);
+  const fetchRowByID = async () => {
+    const stats = await getRowById("stats", id);
+    setStats(stats as typeof statsInitial);
+  };
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   return (
     <>
       <View className="mb-2 flex items-center justify-center">
         <View className="relative">
           <Image
-            source={stats.picture ? { uri: stats.picture } : require("../assets/thumbnail.png")}
+            source={stats?.picture ? { uri: stats.picture } : require("../assets/thumbnail.png")}
             style={{ width: 80, height: 114 }}
             className="rounded-md"
           />

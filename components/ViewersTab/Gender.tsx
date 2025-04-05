@@ -1,7 +1,7 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import Headline from "components/Headline";
 import { useID } from "contexts/IdContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Svg, { Path, G } from "react-native-svg";
 import { getRowById } from "sqlite/queries/crud";
@@ -14,13 +14,16 @@ export default function Gender() {
 
   const { id } = useID();
 
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const data = await getRowById("viewersGenderAge", id);
-      setGenderAgeViewers(data as typeof viewersGenderAgeInitial);
-    };
-    fetchRowByID();
-  }, [id]);
+  const fetchRowByID = async () => {
+    const data = await getRowById("viewersGenderAge", id);
+    setGenderAgeViewers(data as typeof viewersGenderAgeInitial);
+  };
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   const data = [
     { id: 1, label: "Мужской", percentage: viewersGenderAge?.men || 0, color: "#0078D7" },

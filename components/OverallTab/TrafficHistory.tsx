@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { trafficLabelMapping, trafficOriginInitial } from "sqlite/tables/trafficOrigin";
 import { getRowById } from "sqlite/queries/crud";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export default function TrafficHistory() {
   const [trafficOrigin, setTrafficOrigin] = useState(trafficOriginInitial);
@@ -12,13 +12,16 @@ export default function TrafficHistory() {
 
   const { id } = useID();
 
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const data = await getRowById("trafficOrigin", id);
-      setTrafficOrigin(data as typeof trafficOriginInitial);
-    };
-    fetchRowByID();
-  }, [id]);
+  const fetchRowByID = async () => {
+    const data = await getRowById("trafficOrigin", id);
+    setTrafficOrigin(data as typeof trafficOriginInitial);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("TrafficOriginForm")}>

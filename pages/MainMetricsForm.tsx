@@ -47,7 +47,10 @@ export default function MainMetricsForm({ navigation }: FormProps) {
   useEffect(() => {
     const fetchMetricsRow = async () => {
       if (id) {
+        console.log(id);
+
         const metrics = await getRowById("main_metrics", id);
+
         setmainMetrics(metrics as typeof mainMetricsInitial);
       }
     };

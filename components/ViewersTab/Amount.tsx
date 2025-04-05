@@ -1,11 +1,11 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Arrow from "react-native-vector-icons/FontAwesome6";
 import Headline from "components/Headline";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useID } from "contexts/IdContext";
 import { viewersInitial } from "sqlite/tables/viewers";
 import { getRowById } from "sqlite/queries/crud";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation, NavigationProp, useFocusEffect } from "@react-navigation/native";
 
 type RootStackParamList = {
   ViewersForm: undefined;
@@ -17,13 +17,16 @@ export default function Amount() {
 
   const { id } = useID();
 
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const data = await getRowById("viewers", id);
-      setViewers(data as typeof viewersInitial);
-    };
-    fetchRowByID();
-  }, [id]);
+  const fetchRowByID = async () => {
+    const data = await getRowById("viewers", id);
+    setViewers(data as typeof viewersInitial);
+  };
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersForm")}>

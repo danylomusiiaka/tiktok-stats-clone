@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useID } from "contexts/IdContext";
 import { viewersGenderAgeInitial } from "sqlite/tables/viewersGenderAge";
 import { getRowById } from "sqlite/queries/crud";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import ViewersGenderAgeForm from "pages/ViewersGender&AgeForm";
 
 export default function AgeOfViewers() {
@@ -13,13 +13,16 @@ export default function AgeOfViewers() {
 
   const { id } = useID();
 
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const data = await getRowById("viewersGenderAge", id);
-      setGenderAgeViewers(data as typeof viewersGenderAgeInitial);
-    };
-    fetchRowByID();
-  }, [id]);
+  const fetchRowByID = async () => {
+    const data = await getRowById("viewersGenderAge", id);
+    setGenderAgeViewers(data as typeof viewersGenderAgeInitial);
+  };
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   const trafficData = [
     { label: "18 - 24", value: viewersGenderAge?.age_18_24 },

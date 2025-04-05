@@ -3,21 +3,25 @@ import PlayButton from "react-native-vector-icons/FontAwesome5";
 import Bookmark from "react-native-vector-icons/Ionicons";
 import { Image, Text, View } from "react-native";
 import Divider from "./Divider";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getRowById } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Stats() {
   const [stats, setStats] = useState(statsInitial);
   const { id } = useID();
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const stats = await getRowById("stats", id);
-      setStats(stats as typeof statsInitial);
-    };
-    fetchRowByID();
-  }, [id]);
+  const fetchRowByID = async () => {
+    const stats = await getRowById("stats", id);
+    setStats(stats as typeof statsInitial);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   return (
     <View className="mx-5 flex-row items-center justify-between">

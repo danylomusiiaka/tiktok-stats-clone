@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { searchQueriesInitial } from "sqlite/tables/searchTerms";
 import { getRowById } from "sqlite/queries/crud";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export default function SearchTerms() {
   const [searchTerms, setSearchTerms] = useState(searchQueriesInitial);
@@ -12,17 +12,20 @@ export default function SearchTerms() {
 
   const { id } = useID();
 
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const data = (await getRowById("searchQueries", id)) as Record<string, string>;
-      const parsedData = {
-        id: data.id,
-        query_values: JSON.parse(data.query_values),
-      };
-      setSearchTerms(parsedData);
+  const fetchRowByID = async () => {
+    const data = (await getRowById("searchQueries", id)) as Record<string, string>;
+    const parsedData = {
+      id: data.id,
+      query_values: JSON.parse(data.query_values),
     };
-    fetchRowByID();
-  }, [id]);
+    setSearchTerms(parsedData);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("SearchQueriesForm")}>

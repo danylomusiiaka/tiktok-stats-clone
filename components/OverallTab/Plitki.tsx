@@ -1,7 +1,7 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import Headline from "components/Headline";
 import { useID } from "contexts/IdContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { getRowById } from "sqlite/queries/crud";
 import { mainMetricsInitial, mainMetricsLabelMapping } from "sqlite/tables/mainMetrics";
@@ -12,13 +12,16 @@ export const Plitki = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const { id } = useID();
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const mainMetrics = await getRowById("main_metrics", id);
-      setMainMetrics(mainMetrics as typeof mainMetricsInitial);
-    };
-    fetchRowByID();
-  }, [id]);
+  const fetchRowByID = async () => {
+    const mainMetrics = await getRowById("main_metrics", id);
+    setMainMetrics(mainMetrics as typeof mainMetricsInitial);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("MainMetricsForm")}>

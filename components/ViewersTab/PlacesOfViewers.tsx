@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { viewersPlacesInitial } from "sqlite/tables/viewersPlaces";
 import { getRowById } from "sqlite/queries/crud";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export default function PlacesOfViewers() {
   const [viewersPlaces, setViewersPlaces] = useState(viewersPlacesInitial);
@@ -12,18 +12,20 @@ export default function PlacesOfViewers() {
 
   const { id } = useID();
 
-  useEffect(() => {
-    const fetchRowByID = async () => {
-      const data = (await getRowById("viewersPlaces", id)) as Record<string, string>;
-      const parsedData = {
-        id: data.id,
-        query_values: JSON.parse(data.query_values),
-      };
-      setViewersPlaces(parsedData as typeof viewersPlacesInitial);
+  const fetchRowByID = async () => {
+    const data = (await getRowById("viewersPlaces", id)) as Record<string, string>;
+    const parsedData = {
+      id: data.id,
+      query_values: JSON.parse(data.query_values),
     };
-    fetchRowByID();
-  }, [id]);
+    setViewersPlaces(parsedData as typeof viewersPlacesInitial);
+  };
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchRowByID();
+    }, [])
+  );
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersPlacesForm")}>
       <Headline name="Места" />
