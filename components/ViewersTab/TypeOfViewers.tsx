@@ -5,18 +5,19 @@ import { useCallback, useEffect, useState } from "react";
 import { viewersInitial } from "sqlite/tables/viewers";
 import { getRowById } from "sqlite/queries/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export default function TypeOfViewers() {
   const [viewers, setViewers] = useState(viewersInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
     const data = await getRowById("viewers", id);
     setViewers(data as typeof viewersInitial);
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchRowByID();
@@ -25,7 +26,7 @@ export default function TypeOfViewers() {
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersForm")}>
-      <Headline name="Типы зрителей" />
+      <Headline>{t("viewers.title_type")}</Headline>
 
       <View className="mb-4">
         <View className="mb-2 flex-row justify-between">
@@ -38,8 +39,8 @@ export default function TypeOfViewers() {
         </View>
 
         <View className="mt-2 flex-row justify-between">
-          <Text>Новые зрители</Text>
-          <Text>Вернувшиеся зрители</Text>
+          <Text>{t("viewers.new_viewers")}</Text>
+          <Text>{t("viewers.old_viewers")}</Text>
         </View>
       </View>
       <View className="mb-4">
@@ -47,14 +48,14 @@ export default function TypeOfViewers() {
           <Text className="font-bold">{viewers?.not_subscribed || 0}%</Text>
           <Text className="font-bold">{viewers?.subscribed || 0}%</Text>
         </View>
-        <View className="h-3 flex-row overflow-hidden rounded-sm ">
+        <View className="h-3 flex-row overflow-hidden rounded-sm">
           <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(viewers?.not_subscribed)}%` }} />
           <View className="ml-0.5 h-full rounded-sm bg-blue-300" style={{ width: `${parseInt(viewers?.subscribed)}%` }} />
         </View>
 
         <View className="mt-2 flex-row justify-between">
-          <Text>Не подписанныe</Text>
-          <Text>Подписчики</Text>
+          <Text>{t("viewers.not_subscribed")}</Text>
+          <Text>{t("viewers.subscribed")}</Text>
         </View>
       </View>
     </TouchableOpacity>

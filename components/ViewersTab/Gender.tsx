@@ -7,11 +7,12 @@ import Svg, { Path, G } from "react-native-svg";
 import { getRowById } from "sqlite/queries/crud";
 import { viewersGenderAgeInitial } from "sqlite/tables/viewersGenderAge";
 import RingChart from "./RingChart";
+import { useTranslation } from "react-i18next";
 
 export default function Gender() {
   const [viewersGenderAge, setGenderAgeViewers] = useState(viewersGenderAgeInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
@@ -26,20 +27,20 @@ export default function Gender() {
   );
 
   const data = [
-    { id: 1, label: "Мужской", percentage: viewersGenderAge?.men || 0, color: "#0078D7" },
-    { id: 2, label: "Женский", percentage: viewersGenderAge?.women || 0, color: "#88C0F0" },
-    { id: 3, label: "Другое", percentage: viewersGenderAge?.other || 0, color: "#F0F0F0" },
+    { id: 1, label: t("viewers.men"), percentage: viewersGenderAge?.men || 0, color: "#0078D7" },
+    { id: 2, label: t("viewers.women"), percentage: viewersGenderAge?.women || 0, color: "#88C0F0" },
+    { id: 3, label: t("viewers.other"), percentage: viewersGenderAge?.other || 0, color: "#F0F0F0" },
   ] as RingChartData[];
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersGenderAgeForm")}>
-      <Headline name="Пол" infoAvaliable={false} />
+      <Headline infoAvaliable={false}>{t("viewers.gender_title")}</Headline>
       <RingChart data={data} />
       <View className="mt-2.5">
-        {data.map((item, index) => (
+        {data.map((item, _) => (
           <View key={item.id} className="flex-row items-center border-b border-gray-200 pb-2">
             <View className="m-3.5 my-5 ml-0 h-3 w-3 rounded-full" style={{ backgroundColor: item.color }} />
-            <Text className="flex-1 text-base font">{item.label}</Text>
+            <Text className="font flex-1 text-base">{item.label}</Text>
             <Text className="text-base font-semibold">{item.percentage}%</Text>
           </View>
         ))}

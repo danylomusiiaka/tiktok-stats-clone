@@ -20,11 +20,3 @@ export const trafficOriginInitial = {
   subscribers: "",
 };
 
-export const trafficLabelMapping: Record<string, string> = {
-  recommend: "Рекомендуем",
-  other: "Другое",
-  personal_profile: "Личний профиль",
-  sound: "Звук",
-  search: "Поиск",
-  subscribers: "Подписки",
-};

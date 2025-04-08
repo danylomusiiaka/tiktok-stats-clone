@@ -7,9 +7,11 @@ import { getRowById } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import Play from "react-native-vector-icons/FontAwesome5";
 import CoefGraph from "./CoefGraph";
+import { useTranslation } from "react-i18next";
 
 export default function Coef() {
   const [picture, setPicture] = useState("");
+  const { t } = useTranslation();
 
   const { id } = useID();
 
@@ -26,12 +28,9 @@ export default function Coef() {
 
   return (
     <View>
-      <Headline name="Коэффициент удержания" />
-      <Text className="mb-2 text-nowrap text-[13px]">В среднем, зрители смотрели ваше видео на 90%.</Text>
-      <Text className="mb-5 text-gray-500">
-        Большиство зрителей прекратили смотреть это видео на отметке 0:01. Узнайте, с какого момента большинство зрителей потеряли интерес к вашему
-        видео.
-      </Text>
+      <Headline>{t("coef.title")}</Headline>
+      <Text className="mb-2 text-nowrap text-[13.7px]">{t("coef.h2", { percent: 90 })}</Text>
+      <Text className="mb-5 text-gray-500">{t("coef.text", { time: "0:01" })}</Text>
       <View className="flex w-full items-center justify-center">
         <View className="relative mb-3 rounded-md" style={{ width: 160, height: 250 }}>
           <Image

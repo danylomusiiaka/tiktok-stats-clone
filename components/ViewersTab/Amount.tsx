@@ -6,6 +6,7 @@ import { useID } from "contexts/IdContext";
 import { viewersInitial } from "sqlite/tables/viewers";
 import { getRowById } from "sqlite/queries/crud";
 import { useNavigation, NavigationProp, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 type RootStackParamList = {
   ViewersForm: undefined;
@@ -14,14 +15,14 @@ type RootStackParamList = {
 export default function Amount() {
   const [viewers, setViewers] = useState(viewersInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
     const data = await getRowById("viewers", id);
     setViewers(data as typeof viewersInitial);
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchRowByID();
@@ -30,7 +31,7 @@ export default function Amount() {
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersForm")}>
-      <Headline name="Всего зрителей" spacing="mb-0" />
+      <Headline spacing="mb-0">{t("viewers.total_amount")}</Headline>
       <Text className="text-2xl font-bold">{viewers?.total || 0}</Text>
       <View className="ml-0.5 mt-1.5 flex-row items-center">
         <Arrow className="mr-1.5" name="circle-arrow-up" size={12} color="#0673D4" />

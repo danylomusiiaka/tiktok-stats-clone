@@ -1,15 +1,16 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { viewersPlacesInitial } from "sqlite/tables/viewersPlaces";
 import { getRowById } from "sqlite/queries/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export default function PlacesOfViewers() {
   const [viewersPlaces, setViewersPlaces] = useState(viewersPlacesInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
@@ -28,7 +29,7 @@ export default function PlacesOfViewers() {
   );
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersPlacesForm")}>
-      <Headline name="Места" />
+      <Headline>{t("viewers.places_title")}</Headline>
       {viewersPlaces.query_values.map((item, index) => (
         <View key={index} className="mb-4">
           <View className="mb-2 flex-row justify-between">

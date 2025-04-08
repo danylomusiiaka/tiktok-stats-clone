@@ -7,10 +7,11 @@ import { getRowById } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import Play from "react-native-vector-icons/FontAwesome5";
 import LikesGraph from "./LikesGraph";
+import { useTranslation } from "react-i18next";
 
 export default function Likes() {
   const [picture, setPicture] = useState("");
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
@@ -26,10 +27,8 @@ export default function Likes() {
 
   return (
     <View>
-      <Headline name="Лайки" />
-      <Text className="mb-5 text-gray-500">
-        Большиство зрителей поставили лайк єтому видео на отметке 0:00. Узнайте, какой момент понравился зрителям.
-      </Text>
+      <Headline>{t("engagement.likes_title")}</Headline>
+      <Text className="mb-5 text-gray-500">{t("engagement.likes_desc", { time: "0.00" })}</Text>
       <View className="flex w-full items-center justify-center">
         <View className="relative mb-3 rounded-md" style={{ width: 160, height: 240 }}>
           <Image

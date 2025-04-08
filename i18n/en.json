@@ -1,5 +1,59 @@
 {
+    "header": {
+        "tabs": ["Overview", "Viewers", "Engagement"],
+        "title": "Video analysis",
+        "published": "Posted on {{publish_date}}"
+    },
     "mainMetrics":{
-        "title": "Main metrics"
+        "title": "Key metrics",
+        "updated": "Updated on",
+        "views": "Video views",
+        "total_time_viewing": "Total play time",
+        "average_time_viewing": "Average watch time",
+        "full_video_checked": "Watched full video",
+        "new_subscribers": "New followers",
+        "graph": {
+            "description": "The chart shows the trend of the data over the last 7 days since publication."
+        }
+    },
+    "coef": {
+        "title": "Retention rate",
+        "h2": "On average, viewers watched {{percent}}% of your video.",
+        "text": "Most viewers stopped watching at {{time}}. Check out the moment in your video where most viewers lost interest."
+    },
+    "trafficOrigin": {
+        "title": "Traffic sources",
+        "recommend": "For You",
+        "other": "Other",
+        "personal_profile": "Pesonal profile",
+        "sound": "Sound",
+        "search": "Search",
+        "subscribers": "Following"
+    },
+    "searchTerms": {
+        "title":"Search queries"
+    },
+    "recomendationAlert":{
+        "h2": "Want more traffic?",
+        "text": "Use Promote to win more audience."
+    },
+    "viewers": {
+        "total_amount": "Total viewers",
+        "title_type": "Viewer types",
+        "new_viewers": "New viewers",
+        "old_viewers": "Returning viewers",
+        "not_subscribed": "Non-followers",
+        "subscribed": "Followers",
+        "gender_title": "Gender",
+        "men": "Male",
+        "women": "Female",
+        "other": "Other",
+        "age_title": "Age",
+        "places_title": "Locations"
+    },
+    "engagement": {
+        "most_words": "Top words used in comments",
+        "likes_title": "Likes",
+        "likes_desc": "Most viewers liked this video at {{time}}. Check out the moment where most viewers liked your video."
     }
 }

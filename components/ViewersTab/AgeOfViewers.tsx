@@ -5,19 +5,19 @@ import { useID } from "contexts/IdContext";
 import { viewersGenderAgeInitial } from "sqlite/tables/viewersGenderAge";
 import { getRowById } from "sqlite/queries/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
-import ViewersGenderAgeForm from "pages/ViewersGender&AgeForm";
+import { useTranslation } from "react-i18next";
 
 export default function AgeOfViewers() {
   const [viewersGenderAge, setGenderAgeViewers] = useState(viewersGenderAgeInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
     const data = await getRowById("viewersGenderAge", id);
     setGenderAgeViewers(data as typeof viewersGenderAgeInitial);
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchRowByID();
@@ -34,7 +34,7 @@ export default function AgeOfViewers() {
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersGenderAgeForm")}>
-      <Headline name="Возраст" infoAvaliable={false} />
+      <Headline infoAvaliable={false}>{t('viewers.age_title')}</Headline>
       {trafficData.map((item, index) => (
         <View key={index} className="mb-4">
           <View className="mb-2 flex-row justify-between">

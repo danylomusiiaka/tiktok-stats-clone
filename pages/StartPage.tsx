@@ -12,6 +12,7 @@ import { deleteRowById, getAllRows } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import LanguageDropdown from "./LanguageDropdown";
 
 type RootStackParamList = {
   StatsForm: undefined;
@@ -91,8 +92,7 @@ export default function StartPage({ navigation }: StartPageProps) {
           <Plus name="plus" size={25} color="white" />
           <Text className="ml-2 text-xl font-semibold text-white">Створити аналіз відео</Text>
         </TouchableOpacity>
-        {/* <Button title="English" onPress={() => changeLanguage("en")} />
-        <Button title="Русский" onPress={() => changeLanguage("ua")} /> */}
+        <LanguageDropdown onSelectLanguage={changeLanguage} />
 
         <View className="my-5 border border-b border-gray-300"></View>
         <View className="mt-4 flex-row items-center">

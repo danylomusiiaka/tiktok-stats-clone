@@ -1,15 +1,16 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
-import { useCallback, useEffect, useState } from "react";
-import { trafficLabelMapping, trafficOriginInitial } from "sqlite/tables/trafficOrigin";
+import { useCallback, useState } from "react";
+import { trafficOriginInitial } from "sqlite/tables/trafficOrigin";
 import { getRowById } from "sqlite/queries/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export default function TrafficHistory() {
   const [trafficOrigin, setTrafficOrigin] = useState(trafficOriginInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
@@ -23,9 +24,18 @@ export default function TrafficHistory() {
     }, [])
   );
 
+  const trafficLabelMapping: Record<string, string> = {
+    recommend: t("trafficOrigin.recommend"),
+    other: t("trafficOrigin.other"),
+    personal_profile: t("trafficOrigin.personal_profile"),
+    sound: t("trafficOrigin.sound"),
+    search: t("trafficOrigin.search"),
+    subscribers: t("trafficOrigin.subscribers"),
+  };
+
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("TrafficOriginForm")}>
-      <Headline name="Источники трафика" />
+      <Headline>{t("trafficOrigin.title")}</Headline>
       {Object.entries(trafficOrigin || trafficOriginInitial)
         .filter(([key]) => key !== "id")
         .map(([key, value]) => (

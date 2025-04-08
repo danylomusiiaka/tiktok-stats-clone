@@ -1,11 +1,14 @@
+import { useTranslation } from "react-i18next";
 import { View, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 export const Graph = () => {
+  const { t } = useTranslation();
+
   const data = {
     datasets: [
       {
-        data: [359, 239, 119, 91, 40, 20, 2], // Зменшено до трьох точок, які відповідають підписам справа
+        data: [359, 239, 119, 91, 40, 20, 2],
         color: () => `#2596be`,
         strokeWidth: 1.5,
       },
@@ -62,7 +65,7 @@ export const Graph = () => {
           <Text className="text-sm font-medium text-[#A1A1A1]">239K</Text>
           <Text className="text-sm font-medium text-[#A1A1A1]">119K</Text>
         </View>
-        <View className="absolute bottom-[2.0rem] left-0 right-0 ml-2  w-[22rem] border-[0.8px] border-b border-[#b9b9b9]" />
+        <View className="absolute bottom-[2.0rem] left-0 right-0 ml-2 w-[22rem] border-[0.8px] border-b border-[#b9b9b9]" />
 
         <View className="absolute bottom-2 mx-2 w-[22rem] flex-row justify-between">
           <Text className="text-sm font-medium text-[#A1A1A1]">15 февр</Text>
@@ -70,7 +73,7 @@ export const Graph = () => {
         </View>
       </View>
       <View className="my-3 w-full rounded-lg bg-[#ebeaea] p-3 px-4">
-        <Text className="text-sm text-gray-600">На диаграмме показывается тренд данных за последние 7 дней после публикации.</Text>
+        <Text className="text-sm text-gray-600">{t("mainMetrics.graph.description")}</Text>
       </View>
     </View>
   );

@@ -7,12 +7,14 @@ import { useRef, useState } from "react";
 import TabsContent from "components/TabsContent";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Chevron from "react-native-vector-icons/Ionicons";
+import { useTranslation } from "react-i18next";
 
 export default function Analytics() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const tabs = ["Обзор", "Зрители", "Вовлеченность"];
+  const tabs: string[] = t("header.tabs", { returnObjects: true }) as string[];
   const [isTabPressed, setIsTabPressed] = useState(false);
   const flatListRef = useRef<FlatList<any>>(null);
 
@@ -22,7 +24,7 @@ export default function Analytics() {
         <TouchableOpacity className="absolute left-4 p-2" onPress={() => navigation.goBack()} onLongPress={() => navigation.navigate("StartPage")}>
           <Chevron name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text className="text-center text-xl font-bold">Анализ видео</Text>
+        <Text className="text-center text-xl font-bold">{t("header.title")}</Text>
       </View>
 
       <ScrollView stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false}>

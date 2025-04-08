@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   percentageMarkers: {
     justifyContent: "space-between",
-    marginRight: 5,
+    marginLeft: 10,
   },
   percentageText: {
     fontSize: 10,

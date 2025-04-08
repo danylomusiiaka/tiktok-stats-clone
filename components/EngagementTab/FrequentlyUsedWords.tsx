@@ -6,11 +6,12 @@ import { getRowById } from "sqlite/queries/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import Info from "react-native-vector-icons/Feather";
 import Chevron from "react-native-vector-icons/Ionicons";
+import { useTranslation } from "react-i18next";
 
 export default function FrequentlyUsedWords() {
   const [searchTerms, setSearchTerms] = useState(searchQueriesInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
@@ -31,7 +32,7 @@ export default function FrequentlyUsedWords() {
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("FrequentWordsForm")}>
       <View className={`mb-4 flex-row items-center`}>
-        <Text className="mr-1.5 mt-2 text-[17px] font-bold">Самые частые слова в комментариях</Text>
+        <Text className="mr-1.5 mt-2 text-[17px] font-bold">{t("engagement.most_words")}</Text>
         <Info name="info" size={14} color="#90959e" className="mt-2" />
       </View>
       {searchTerms.query_values?.map((term, index) => (

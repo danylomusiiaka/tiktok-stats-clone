@@ -1,15 +1,16 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import Headline from "../Headline";
 import { useID } from "contexts/IdContext";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { searchQueriesInitial } from "sqlite/tables/searchTerms";
 import { getRowById } from "sqlite/queries/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export default function SearchTerms() {
   const [searchTerms, setSearchTerms] = useState(searchQueriesInitial);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const { t } = useTranslation();
   const { id } = useID();
 
   const fetchRowByID = async () => {
@@ -29,7 +30,7 @@ export default function SearchTerms() {
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("SearchQueriesForm")}>
-      <Headline name="Поисковые запросы" />
+      <Headline>{t("searchTerms.title")}</Headline>
       {searchTerms.query_values?.map((term, index) => (
         <View key={index} className="mb-4">
           <View className="mb-2 flex-row justify-between">

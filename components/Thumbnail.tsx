@@ -4,15 +4,17 @@ import { statsInitial } from "sqlite/tables/stats";
 import { useCallback, useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export default function Thumbnail() {
+  const { t } = useTranslation();
   const [stats, setStats] = useState(statsInitial);
   const { id } = useID();
   const fetchRowByID = async () => {
-    const stats = await getRowById("stats", id);
-    setStats(stats as typeof statsInitial);
+    const stats = await getRowById("stats", id);  
+    setStats(stats as typeof statsInitial); 
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchRowByID();
@@ -34,7 +36,7 @@ export default function Thumbnail() {
         </View>
       </View>
       <View className="mb-5 flex items-center justify-center">
-        <Text className="text-sm text-gray-600">Опубликовано {stats?.publish_date || 0}</Text>
+        <Text className="text-sm text-gray-600">{t("header.published", { publish_date: stats?.publish_date || 0 })}</Text>
       </View>
     </>
   );

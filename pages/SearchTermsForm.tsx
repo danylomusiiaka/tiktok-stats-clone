@@ -1,4 +1,4 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, Button, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, Button, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
@@ -7,7 +7,6 @@ import { createTable, getAllTables } from "sqlite/queries/table_crud";
 import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
 import { searchQueriesInitial, searchQueriesTableStructure } from "sqlite/tables/searchTerms";
 import { useID } from "contexts/IdContext";
-import Chevron from "react-native-vector-icons/Ionicons";
 import { Header } from "components/Header";
 
 type RootStackParamList = {

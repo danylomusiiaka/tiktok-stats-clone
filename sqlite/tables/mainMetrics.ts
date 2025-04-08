@@ -19,11 +19,3 @@ export const mainMetricsInitial = {
   full_video_checked: "",
   new_subscribers: "",
 };
-
-export const mainMetricsLabelMapping: Record<string, string> = {
-  views: "Посмотры видео",
-  total_time_viewing: "Общая продолжительность просмотра",
-  average_time_viewing: "Среднее время просмотра",
-  full_video_checked: "Среднее время просмотра",
-  new_subscribers: "Новые подписчики",
-};

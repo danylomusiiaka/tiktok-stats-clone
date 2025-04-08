@@ -2,7 +2,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from "react-native";
 import Chevron from "react-native-vector-icons/Ionicons";
 
-export function Header({ children }: { children: React.ReactNode }) {
+export function Header({ children }: { children: string }) {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
