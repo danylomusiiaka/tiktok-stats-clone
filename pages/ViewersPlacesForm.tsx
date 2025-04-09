@@ -25,13 +25,22 @@ export default function ViewersPlacesForm({ navigation }: FormProps) {
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(viewersPlaces) === JSON.stringify(prevviewersPlaces) || !viewersPlaces) return;
+      const cleanedQueryValues = viewersPlaces.query_values.filter((pair) => pair.name.trim() !== "" || pair.value.trim() !== "");
+
+      const cleanedData = {
+        id: id,
+        query_values: cleanedQueryValues,
+      };
+
+      if (JSON.stringify(cleanedData) === JSON.stringify(prevviewersPlaces) || !cleanedQueryValues.length) return;
+
       const stringifiedData = {
         id: id,
-        query_values: JSON.stringify(viewersPlaces.query_values),
+        query_values: JSON.stringify(cleanedQueryValues),
       };
+
       await insertInto("viewersPlaces", stringifiedData);
-      setPrevviewersPlaces(viewersPlaces);
+      setPrevviewersPlaces(cleanedData);
     } catch (error) {
       console.error("Database error:", error);
     }

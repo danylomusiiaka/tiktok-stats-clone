@@ -30,8 +30,8 @@ export default function TypeOfViewers() {
 
       <View className="mb-4">
         <View className="mb-2 flex-row justify-between">
-          <Text className="font-bold">{viewers?.new_viewers || 0}%</Text>
-          <Text className="font-bold">{viewers?.old_viewers || 0}%</Text>
+          <Text className="font-medium">{viewers?.new_viewers || 0}%</Text>
+          <Text className="font-medium">{viewers?.old_viewers || 0}%</Text>
         </View>
         <View className="h-3 flex-row overflow-hidden rounded-sm">
           <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(viewers?.new_viewers)}%` }} />
@@ -45,8 +45,8 @@ export default function TypeOfViewers() {
       </View>
       <View className="mb-4">
         <View className="mb-2 flex-row justify-between">
-          <Text className="font-bold">{viewers?.not_subscribed || 0}%</Text>
-          <Text className="font-bold">{viewers?.subscribed || 0}%</Text>
+          <Text className="font-medium">{viewers?.not_subscribed || 0}%</Text>
+          <Text className="font-medium">{viewers?.subscribed || 0}%</Text>
         </View>
         <View className="h-3 flex-row overflow-hidden rounded-sm">
           <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(viewers?.not_subscribed)}%` }} />

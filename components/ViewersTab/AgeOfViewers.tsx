@@ -34,18 +34,20 @@ export default function AgeOfViewers() {
 
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersGenderAgeForm")}>
-      <Headline infoAvaliable={false}>{t('viewers.age_title')}</Headline>
-      {trafficData.map((item, index) => (
-        <View key={index} className="mb-4">
-          <View className="mb-2 flex-row justify-between">
-            <Text>{item?.label}</Text>
-            <Text className="font-semibold">{parseInt(item?.value || "0").toFixed(1)}%</Text>
+      <Headline infoAvaliable={false}>{t("viewers.age_title")}</Headline>
+      {trafficData
+        .sort((a, b) => Number(b.value) - Number(a.value))
+        .map((item, index) => (
+          <View key={index} className="mb-4">
+            <View className="mb-2 flex-row justify-between">
+              <Text>{item?.label}</Text>
+              <Text className="font-semibold">{parseInt(item?.value || "0").toFixed(1)}%</Text>
+            </View>
+            <View className="h-3 overflow-hidden rounded-sm bg-gray-200">
+              <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(item?.value) || 0}%` }} />
+            </View>
           </View>
-          <View className="h-3 overflow-hidden rounded-sm bg-gray-200">
-            <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(item?.value) || 0}%` }} />
-          </View>
-        </View>
-      ))}
+        ))}
     </TouchableOpacity>
   );
 }

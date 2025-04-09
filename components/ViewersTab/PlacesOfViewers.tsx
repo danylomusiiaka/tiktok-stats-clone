@@ -30,17 +30,19 @@ export default function PlacesOfViewers() {
   return (
     <TouchableOpacity activeOpacity={1} onLongPress={() => navigation.navigate("ViewersPlacesForm")}>
       <Headline>{t("viewers.places_title")}</Headline>
-      {viewersPlaces.query_values.map((item, index) => (
-        <View key={index} className="mb-4">
-          <View className="mb-2 flex-row justify-between">
-            <Text>{item.name || "empty"}</Text>
-            <Text className="font-semibold">{parseInt(item.value || "0").toFixed(1)}%</Text>
+      {viewersPlaces.query_values
+        .sort((a, b) => Number(b.value) - Number(a.value))
+        .map((item, index) => (
+          <View key={index} className="mb-4">
+            <View className="mb-2 flex-row justify-between">
+              <Text>{item.name || "empty"}</Text>
+              <Text className="font-semibold">{parseInt(item.value || "0").toFixed(1)}%</Text>
+            </View>
+            <View className="h-3 overflow-hidden rounded-sm bg-gray-200">
+              <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(item.value)}%` }} />
+            </View>
           </View>
-          <View className="h-3 overflow-hidden rounded-sm bg-gray-200">
-            <View className="h-full rounded-sm bg-blue-500" style={{ width: `${parseInt(item.value)}%` }} />
-          </View>
-        </View>
-      ))}
+        ))}
     </TouchableOpacity>
   );
 }

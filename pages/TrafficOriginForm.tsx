@@ -29,7 +29,6 @@ export default function TraficOriginForm({ navigation }: FormProps) {
       if (JSON.stringify(trafficOrigin) === JSON.stringify(prevtrafficOrigin) || !trafficOrigin) return;
       await insertInto("trafficOrigin", { ...trafficOrigin, id: id });
       setPrevTrafficOrigin(trafficOrigin);
-      Keyboard.dismiss();
     } catch (error) {
       console.error("Database error:", error);
     }

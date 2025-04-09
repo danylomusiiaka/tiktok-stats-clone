@@ -36,7 +36,7 @@ export default function Amount() {
       <View className="ml-0.5 mt-1.5 flex-row items-center">
         <Arrow className="mr-1.5" name="circle-arrow-up" size={12} color="#0673D4" />
         <Text className="mr-1.5 font-medium text-[#0673D4]">+{viewers?.compared_to || 0}</Text>
-        <Text className="text-gray-400">(в сравнении с вчерашним днем)</Text>
+        <Text className="text-gray-400">{t("viewers.in_comparison")}</Text>
       </View>
     </TouchableOpacity>
   );

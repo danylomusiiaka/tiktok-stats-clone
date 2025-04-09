@@ -38,6 +38,7 @@ export default function TrafficHistory() {
       <Headline>{t("trafficOrigin.title")}</Headline>
       {Object.entries(trafficOrigin || trafficOriginInitial)
         .filter(([key]) => key !== "id")
+        .sort(([, a], [, b]) => Number(b) - Number(a))
         .map(([key, value]) => (
           <View key={key} className="mb-4">
             <View className="mb-2 flex-row justify-between">

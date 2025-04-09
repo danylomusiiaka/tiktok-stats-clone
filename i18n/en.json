@@ -39,6 +39,7 @@
     },
     "viewers": {
         "total_amount": "Total viewers",
+        "in_comparison": "(in comparison to yesterday)",
         "title_type": "Viewer types",
         "new_viewers": "New viewers",
         "old_viewers": "Returning viewers",

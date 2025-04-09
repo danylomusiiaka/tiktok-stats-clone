@@ -12,7 +12,7 @@ import { Header } from "components/Header";
 
 type RootStackParamList = {
   Analytics: undefined;
-  TrafficOriginForm: undefined;
+  MainMetricsGraphForm: undefined;
 };
 
 type FormProps = {
@@ -114,7 +114,7 @@ export default function MainMetricsForm({ navigation }: FormProps) {
               className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
               onPress={async () => {
                 await submitForm();
-                navigation.navigate("TrafficOriginForm");
+                navigation.navigate("MainMetricsGraphForm");
               }}
             >
               <Text className="text-lg font-semibold color-white">Наступна форма</Text>
