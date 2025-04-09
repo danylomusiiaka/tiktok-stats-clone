@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, FlatList, TouchableOpacity, View, Text } from "react-native";
+import { SafeAreaView, ScrollView, FlatList, TouchableOpacity, View, Text, Platform } from "react-native";
 import { Header } from "../components/Header";
 import Thumbnail from "../components/Thumbnail";
 import Tabs from "../components/Tabs";
@@ -19,7 +19,7 @@ export default function Analytics() {
   const flatListRef = useRef<FlatList<any>>(null);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className={`flex-1 ${Platform.OS == 'android' ? 'my-7' : 'my-0'}`}>
       <View className="flex-row items-center justify-center px-4 py-4">
         <TouchableOpacity className="absolute left-4 p-2" onPress={() => navigation.goBack()} onLongPress={() => navigation.navigate("StartPage")}>
           <Chevron name="chevron-back" size={24} color="black" />
