@@ -1,27 +1,19 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, Button, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/queries/table_crud";
+import { insertInto, getRowById } from "sqlite/queries/crud";
 import { frequentWordsInitial, frequentWordsTableStructure } from "sqlite/tables/frequentWords";
 import { useID } from "contexts/IdContext";
 import { Header } from "components/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Analytics: undefined;
-  ViewersForm: undefined;
-};
-
-type FormProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function FrequentWordsForm({ navigation }: FormProps) {
+export default function FrequentWordsForm() {
   const [prevfrequentWords, setPrevfrequentWords] = useState(frequentWordsInitial);
   const [frequentWords, setfrequentWords] = useState(frequentWordsInitial);
   const { id } = useID();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const submitForm = async () => {
     try {
@@ -128,16 +120,6 @@ export default function FrequentWordsForm({ navigation }: FormProps) {
               <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
             </TouchableOpacity>
           </View>
-
-          {/* Admin Buttons */}
-          {/* <Button
-            title="Get all from frequentWords"
-            onPress={() => {
-              getAllRows("frequentWords");
-            }}
-          />
-          <Button title="Delete all from frequentWords" onPress={() => deleteAllRows("trafficOrigin")} />
-          <Button title="Get all tables" onPress={() => getAllTables()} /> */}
         </ScrollView>
         <StatusBar />
       </SafeAreaView>

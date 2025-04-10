@@ -1,27 +1,19 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, Button, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/queries/table_crud";
+import { insertInto, getRowById } from "sqlite/queries/crud";
 import { mainMetricsGraphInitial, mainMetricsGraphTableStructure } from "sqlite/tables/mainMetricsGraph";
 import { useID } from "contexts/IdContext";
 import { Header } from "components/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Analytics: undefined;
-  TrafficOrigin: undefined;
-};
-
-type FormProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function MainMetricsGraphForm({ navigation }: FormProps) {
+export default function MainMetricsGraphForm() {
   const [prevmainMetricsGraph, setPrevmainMetricsGraph] = useState(mainMetricsGraphInitial);
   const [mainMetricsGraph, setmainMetricsGraph] = useState(mainMetricsGraphInitial);
   const { id } = useID();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const submitForm = async () => {
     try {
@@ -94,7 +86,7 @@ export default function MainMetricsGraphForm({ navigation }: FormProps) {
             className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
             onPress={async () => {
               await submitForm();
-              navigation.navigate("TrafficOrigin");
+              navigation.navigate("TrafficOriginForm");
             }}
           >
             <Text className="text-lg font-semibold color-white">Наступна форма</Text>
@@ -108,16 +100,6 @@ export default function MainMetricsGraphForm({ navigation }: FormProps) {
           >
             <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
           </TouchableOpacity>
-
-          {/* Admin Buttons */}
-          {/* <Button
-              title="Get all from mainMetricsGraph"
-              onPress={() => {
-                getAllRows("mainMetricsGraph");
-              }}
-            />
-            <Button title="Delete all from mainMetricsGraph" onPress={() => deleteAllRows("mainMetricsGraph")} />
-            <Button title="Get all tables" onPress={() => getAllTables()} /> */}
         </View>
       </ScrollView>
       <StatusBar />

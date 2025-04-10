@@ -1,5 +1,4 @@
 import { SafeAreaView, ScrollView, FlatList, TouchableOpacity, View, Text, Platform } from "react-native";
-import { Header } from "../components/Header";
 import Thumbnail from "../components/Thumbnail";
 import Tabs from "../components/Tabs";
 import Stats from "../components/Stats";

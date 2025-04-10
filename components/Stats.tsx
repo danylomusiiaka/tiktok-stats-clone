@@ -2,8 +2,7 @@ import Heart from "react-native-vector-icons/FontAwesome";
 import PlayButton from "react-native-vector-icons/FontAwesome5";
 import Bookmark from "react-native-vector-icons/Ionicons";
 import { Image, Text, View } from "react-native";
-import Divider from "./Divider";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { getRowById } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
@@ -30,31 +29,28 @@ export default function Stats() {
         <PlayButton name="play" size={16} color="#A1A1A1" />
         <Text className="mt-3.5 text-base font-medium">{stats?.views || 0}</Text>
       </View>
+      <View className="h-8 border-r border-gray-200" />
 
-      <Divider />
       {/* Heart */}
       <View className="flex items-center justify-center">
         <Heart name="heart" size={16} color="#A1A1A1" />
         <Text className="mt-3 text-base font-medium">{stats?.likes || 0}</Text>
       </View>
-
-      <Divider />
+      <View className="h-8 border-r border-gray-200" />
 
       {/* Comment */}
       <View className="flex items-center justify-center">
         <Image source={require("../assets/comment.png")} style={{ width: 24, height: 22 }} />
         <Text className="mt-1.5 text-base font-medium">{stats?.comments || 0}</Text>
       </View>
-
-      <Divider />
+      <View className="h-8 border-r border-gray-200" />
 
       {/* Share */}
       <View className="flex items-center justify-center">
         <Image source={require("../assets/share.png")} style={{ width: 22, height: 22 }} />
         <Text className="mt-2 text-base font-medium">{stats?.shares || 0}</Text>
       </View>
-
-      <Divider />
+      <View className="h-8 border-r border-gray-200" />
 
       {/* Bookmark */}
       <View className="flex items-center justify-center">

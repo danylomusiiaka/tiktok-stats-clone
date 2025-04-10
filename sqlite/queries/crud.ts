@@ -50,8 +50,6 @@ export const getRowById = async (tableName: string, id: string) => {
       return specificRow;
     }
   } catch (error) {
-    console.log("here");
-
     console.log(error);
   }
 };
@@ -68,11 +66,6 @@ export const getAllRows = async (tableName: string) => {
   } catch (error) {
     console.error(error);
   }
-};
-
-export const deleteAllRows = async (tableName: string) => {
-  const db = await openDb();
-  await db.runAsync(`DROP TABLE ${tableName}`);
 };
 
 export const deleteRowById = async (id: string) => {

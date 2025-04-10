@@ -14,12 +14,17 @@ import ViewersPlacesForm from "pages/ViewersPlacesForm";
 import FrequentWordsForm from "pages/FrequentWordsForm";
 import LikesGraphForm from "pages/LikesGraphForm";
 import { IDProvider } from "./contexts/IdContext";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import * as SQLite from "expo-sqlite";
 import "./global.css";
 import "i18n/i18n";
 
 const Stack = createNativeStackNavigator();
 
+const db = SQLite.openDatabaseSync("myDatabase.db");
+
 export default function App() {
+  useDrizzleStudio(db);
   return (
     <IDProvider>
       <NavigationContainer>
@@ -34,6 +39,7 @@ export default function App() {
 
           {/* Forms */}
           <Stack.Screen name="StatsForm" component={StatsForm} />
+
           <Stack.Screen name="MainMetricsForm" component={MainMetricsForm} />
           <Stack.Screen name="MainMetricsGraphForm" component={MainMetricsGraphForm} />
           <Stack.Screen name="CoefGraphForm" component={CoefGraphForm} />

@@ -1,26 +1,19 @@
-import { TextInput, Text, TouchableOpacity, View, ScrollView, Button } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, deleteAllRows, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/queries/table_crud";
+import { insertInto, getRowById } from "sqlite/queries/crud";
 import { coefGraphInitial, coefGraphTableStructure } from "sqlite/tables/coefGraph";
 import { useID } from "contexts/IdContext";
 import { Header } from "components/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Analytics: undefined;
-};
-
-type FormProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function CoefGraphForm({ navigation }: FormProps) {
+export default function CoefGraphForm() {
   const [prevcoefGraph, setPrevcoefGraph] = useState(coefGraphInitial);
   const [coefGraph, setcoefGraph] = useState(coefGraphInitial);
   const { id } = useID();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const submitForm = async () => {
     try {
@@ -110,16 +103,6 @@ export default function CoefGraphForm({ navigation }: FormProps) {
           >
             <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
           </TouchableOpacity>
-
-          {/* Admin Buttons */}
-          {/* <Button
-            title="Get all from coefGraph"
-            onPress={() => {
-              getAllRows("coefGraph");
-            }}
-          />
-          <Button title="Delete all from coefGraph" onPress={() => deleteAllRows("coefGraph")} />
-          <Button title="Get all tables" onPress={() => getAllTables()} /> */}
         </View>
       </ScrollView>
       <StatusBar />

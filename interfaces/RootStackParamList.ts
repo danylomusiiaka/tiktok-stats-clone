@@ -1,6 +1,7 @@
 interface RootStackParamList {
   StartPage: undefined;
   StatsForm: undefined;
+  Analytics: undefined;
   MainMetricsForm: undefined;
   MainMetricsGraphForm: undefined;
   CoefGraphForm: undefined;

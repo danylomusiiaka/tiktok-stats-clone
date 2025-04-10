@@ -19,8 +19,6 @@ export default function SearchTerms() {
       id: data.id,
       query_values: JSON.parse(data.query_values),
     };
-    console.log(data.query_values);
-
     setSearchTerms(parsedData);
   };
 

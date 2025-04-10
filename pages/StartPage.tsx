@@ -1,7 +1,6 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, Button } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { StackNavigationProp } from "@react-navigation/stack";
 import Plus from "react-native-vector-icons/Entypo";
 import Clock from "react-native-vector-icons/FontAwesome6";
 import Chevron from "react-native-vector-icons/Ionicons";
@@ -10,21 +9,15 @@ import uuid from "react-native-uuid";
 import { useState, useCallback } from "react";
 import { deleteRowById, getAllRows } from "sqlite/queries/crud";
 import { statsInitial } from "sqlite/tables/stats";
-import { useFocusEffect } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import LanguageDropdown from "./LanguageDropdown";
+import LanguageDropdown from "../components/LanguageDropdown";
 
-type RootStackParamList = {
-  StatsForm: undefined;
-  Analytics: undefined;
-};
-type StartPageProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function StartPage({ navigation }: StartPageProps) {
+export default function StartPage() {
   const { setId } = useID();
   const { i18n } = useTranslation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };

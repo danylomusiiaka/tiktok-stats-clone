@@ -1,28 +1,19 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, ScrollView, Button, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, getRowById, deleteAllRows } from "sqlite/queries/crud";
+import { createTable } from "sqlite/queries/table_crud";
+import { insertInto, getRowById } from "sqlite/queries/crud";
 import { useID } from "contexts/IdContext";
-import Chevron from "react-native-vector-icons/Ionicons";
 import { viewersGenderAgeInitial, viewersGenderAgeTableStructure } from "sqlite/tables/viewersGenderAge";
 import { Header } from "components/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Analytics: undefined;
-  ViewersPlacesForm: undefined;
-};
-
-type FormProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function ViewersGenderAgeForm({ navigation }: FormProps) {
+export default function ViewersGenderAgeForm() {
   const [prevviewersGenderAge, setPrevviewersGenderAge] = useState(viewersGenderAgeInitial);
   const [viewersGenderAge, setviewersGenderAge] = useState(viewersGenderAgeInitial);
   const { id } = useID();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const submitForm = async () => {
     try {
@@ -165,16 +156,6 @@ export default function ViewersGenderAgeForm({ navigation }: FormProps) {
             >
               <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
             </TouchableOpacity>
-
-            {/* Admin Buttons */}
-            {/* <Button
-              title="Get all from viewersGenderAge"
-              onPress={() => {
-                getAllRows("viewersGenderAge");
-              }}
-            />
-            <Button title="Delete all from viewersGenderAge" onPress={() => deleteAllRows("viewersGenderAge")} />
-            <Button title="Get all tables" onPress={() => getAllTables()} /> */}
           </View>
         </ScrollView>
         <StatusBar />

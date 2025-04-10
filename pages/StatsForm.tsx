@@ -1,28 +1,20 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, Button, ScrollView, Image, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, ScrollView, Image, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable, getAllTables } from "sqlite/queries/table_crud";
-import { insertInto, getRowById, deleteAllRows, getAllRows } from "sqlite/queries/crud";
+import { createTable } from "sqlite/queries/table_crud";
+import { insertInto, getRowById } from "sqlite/queries/crud";
 import { statsInitial, statsTableStructure } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
-import Chevron from "react-native-vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
 import { Header } from "components/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Analytics: undefined;
-  MainMetricsForm: undefined;
-};
-
-type FormProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function StatsForm({ navigation }: FormProps) {
+export default function StatsForm() {
   const [prevStats, setPrevStats] = useState(statsInitial);
   const [stats, setStats] = useState(statsInitial);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { id } = useID();
 
@@ -179,16 +171,6 @@ export default function StatsForm({ navigation }: FormProps) {
             >
               <Text className="text-lg font-semibold text-white">Переглянути попередній вигляд</Text>
             </TouchableOpacity>
-
-            {/* Admin Buttons */}
-            {/* <Button
-              title="Get all from stats"
-              onPress={() => {
-                getAllRows("stats");
-              }}
-            />
-            <Button title="Delete all from stats" onPress={() => deleteAllRows("stats")} />
-            <Button title="Get all tables" onPress={() => getAllTables()} /> */}
           </View>
         </ScrollView>
         <StatusBar />

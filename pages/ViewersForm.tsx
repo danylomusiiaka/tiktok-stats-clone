@@ -1,26 +1,18 @@
-import { TextInput, Text, Keyboard, TouchableOpacity, View, ScrollView, Button, KeyboardAvoidingView, Platform } from "react-native";
+import { TextInput, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { createTable } from "sqlite/queries/table_crud";
-import { getAllRows, insertInto, getRowById } from "sqlite/queries/crud";
+import { insertInto, getRowById } from "sqlite/queries/crud";
 import { useID } from "contexts/IdContext";
-import Chevron from "react-native-vector-icons/Ionicons";
 import { viewersInitial, viewersTableStructure } from "sqlite/tables/viewers";
 import { Header } from "components/Header";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-  Analytics: undefined;
-  ViewersGenderAgeForm: undefined;
-};
-
-type FormProps = {
-  navigation: StackNavigationProp<RootStackParamList>;
-};
-
-export default function ViewersForm({ navigation }: FormProps) {
+export default function ViewersForm() {
   const [prevviewers, setPrevviewers] = useState(viewersInitial);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const [viewers, setviewers] = useState(viewersInitial);
   const { id } = useID();
 
@@ -65,14 +57,14 @@ export default function ViewersForm({ navigation }: FormProps) {
             <Text className="mt-3 text-xl">Всего зрителей</Text>
             <TextInput
               value={viewers?.total}
-              className="h-13 my-2 w-full rounded-md border border-gray-400 p-3  text-[16px]"
+              className="h-13 my-2 w-full rounded-md border border-gray-400 p-3 text-[16px]"
               onChangeText={(value) => setviewers({ ...viewers, total: value })}
               placeholder="напр. 523462"
             />
             <Text className="text-xl">В сравнении с вчерашним днем</Text>
             <TextInput
               value={viewers?.compared_to}
-              className="h-13 my-2 w-full rounded border border-gray-400 p-3  text-[16px]"
+              className="h-13 my-2 w-full rounded border border-gray-400 p-3 text-[16px]"
               onChangeText={(value) => setviewers({ ...viewers, compared_to: value })}
               placeholder="напр. 523"
             />
@@ -138,15 +130,6 @@ export default function ViewersForm({ navigation }: FormProps) {
             >
               <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
             </TouchableOpacity>
-            {/* Admin Buttons */}
-            {/* <Button
-              title="Get all from viewers"
-              onPress={() => {
-                getAllRows("viewers");
-              }}
-            />
-            <Button title="Delete all from viewers" onPress={() => deleteAllRows("viewers")} />
-            <Button title="Get all tables" onPress={() => getAllTables()} /> */}
           </View>
         </ScrollView>
         <StatusBar />
