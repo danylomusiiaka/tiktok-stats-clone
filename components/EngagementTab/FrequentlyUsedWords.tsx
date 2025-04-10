@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useID } from "contexts/IdContext";
 import { useCallback, useEffect, useState } from "react";
 import { searchQueriesInitial } from "sqlite/tables/searchTerms";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import Info from "react-native-vector-icons/Feather";
 import Chevron from "react-native-vector-icons/Ionicons";

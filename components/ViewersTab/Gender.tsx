@@ -4,7 +4,7 @@ import { useID } from "contexts/IdContext";
 import { useCallback, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Svg, { Path, G } from "react-native-svg";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { viewersGenderAgeInitial } from "sqlite/tables/viewersGenderAge";
 import RingChart from "./RingChart";
 import { useTranslation } from "react-i18next";

@@ -2,28 +2,36 @@ import { TextInput, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingVi
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable } from "sqlite/queries/table_crud";
-import { insertInto, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/operations/table_crud";
+import { insertInto, getRowById } from "sqlite/operations/crud";
 import { frequentWordsInitial, frequentWordsTableStructure } from "sqlite/tables/frequentWords";
 import { useID } from "contexts/IdContext";
 import { Header } from "components/Header";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import FormControls from "components/FormControls";
 
 export default function FrequentWordsForm() {
   const [prevfrequentWords, setPrevfrequentWords] = useState(frequentWordsInitial);
   const [frequentWords, setfrequentWords] = useState(frequentWordsInitial);
   const { id } = useID();
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const submitForm = async () => {
     try {
-      if (JSON.stringify(frequentWords) === JSON.stringify(prevfrequentWords) || !frequentWords) return;
+      const cleanedQueryValues = frequentWords.query_values.filter((pair) => pair.name.trim() !== "" || pair.value.trim() !== "");
+
+      const cleanedData = {
+        id: id,
+        query_values: cleanedQueryValues,
+      };
+
+      if (JSON.stringify(cleanedData) === JSON.stringify(prevfrequentWords) || !cleanedQueryValues.length) return;
+
       const stringifiedData = {
         id: id,
-        query_values: JSON.stringify(frequentWords.query_values),
+        query_values: JSON.stringify(cleanedQueryValues),
       };
+
       await insertInto("frequentWords", stringifiedData);
-      setPrevfrequentWords(frequentWords);
+      setPrevfrequentWords(cleanedData);
     } catch (error) {
       console.error("Database error:", error);
     }
@@ -51,6 +59,7 @@ export default function FrequentWordsForm() {
             query_values: JSON.parse(query.query_values),
           };
           setfrequentWords(parsedData);
+          setPrevfrequentWords(parsedData);
         } else {
           setfrequentWords({
             id: id,
@@ -101,24 +110,8 @@ export default function FrequentWordsForm() {
             <TouchableOpacity className="mb-4 flex items-center justify-center rounded-md bg-green-500 py-4" onPress={addPair}>
               <Text className="text-lg font-semibold color-white">Додати слово</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
-              onPress={async () => {
-                await submitForm();
-                navigation.navigate("Analytics");
-              }}
-            >
-              <Text className="text-lg font-semibold color-white">Наступна форма</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-4"
-              onPress={async () => {
-                await submitForm();
-                navigation.navigate("Analytics");
-              }}
-            >
-              <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
-            </TouchableOpacity>
+
+            <FormControls submitForm={submitForm} nextPage="LikesGraphForm" />
           </View>
         </ScrollView>
         <StatusBar />

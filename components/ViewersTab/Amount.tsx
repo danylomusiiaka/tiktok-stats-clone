@@ -4,7 +4,7 @@ import Headline from "components/Headline";
 import { useCallback, useEffect, useState } from "react";
 import { useID } from "contexts/IdContext";
 import { viewersInitial } from "sqlite/tables/viewers";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { useNavigation, NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 

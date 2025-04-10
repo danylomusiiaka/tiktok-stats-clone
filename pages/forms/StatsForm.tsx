@@ -2,18 +2,17 @@ import { TextInput, Text, TouchableOpacity, View, ScrollView, Image, KeyboardAvo
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable } from "sqlite/queries/table_crud";
-import { insertInto, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/operations/table_crud";
+import { insertInto, getRowById } from "sqlite/operations/crud";
 import { statsInitial, statsTableStructure } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
 import * as ImagePicker from "expo-image-picker";
 import { Header } from "components/Header";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import FormControls from "components/FormControls";
 
 export default function StatsForm() {
   const [prevStats, setPrevStats] = useState(statsInitial);
   const [stats, setStats] = useState(statsInitial);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { id } = useID();
@@ -153,24 +152,8 @@ export default function StatsForm() {
               onChangeText={(value) => setStats({ ...stats, saved: value })}
               placeholder="напр. 5,021"
             />
-            <TouchableOpacity
-              className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
-              onPress={async () => {
-                await submitForm();
-                navigation.navigate("MainMetricsForm");
-              }}
-            >
-              <Text className="text-lg font-semibold text-white">Наступна форма</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-4"
-              onPress={async () => {
-                await submitForm();
-                navigation.navigate("Analytics");
-              }}
-            >
-              <Text className="text-lg font-semibold text-white">Переглянути попередній вигляд</Text>
-            </TouchableOpacity>
+
+            <FormControls submitForm={submitForm} nextPage="MainMetricsForm" />
           </View>
         </ScrollView>
         <StatusBar />

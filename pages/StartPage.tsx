@@ -7,7 +7,7 @@ import Chevron from "react-native-vector-icons/Ionicons";
 import { useID } from "contexts/IdContext";
 import uuid from "react-native-uuid";
 import { useState, useCallback } from "react";
-import { deleteRowById, getAllRows } from "sqlite/queries/crud";
+import { deleteRowById, getAllRows } from "sqlite/operations/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";

@@ -3,7 +3,7 @@ import Headline from "../Headline";
 import { useCallback, useEffect, useState } from "react";
 import { useID } from "contexts/IdContext";
 import { viewersGenderAgeInitial } from "sqlite/tables/viewersGenderAge";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 

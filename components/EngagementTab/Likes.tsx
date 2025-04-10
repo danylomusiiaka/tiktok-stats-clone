@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import Headline from "components/Headline";
 import { NavigationProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useID } from "contexts/IdContext";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import Play from "react-native-vector-icons/FontAwesome5";
 import LikesGraph from "./LikesGraph";

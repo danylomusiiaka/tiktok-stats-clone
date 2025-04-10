@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Text, Dimensions, TouchableOpacity } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { mainMetricsGraphInitial } from "sqlite/tables/mainMetricsGraph";
 
 export default function Graph({ dataPoints = [300, 0, 0], labels = ["359К", "239К", "119К"] }) {

@@ -1,5 +1,5 @@
 import { useID } from "contexts/IdContext";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { useCallback, useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
@@ -11,8 +11,8 @@ export default function Thumbnail() {
   const [stats, setStats] = useState(statsInitial);
   const { id } = useID();
   const fetchRowByID = async () => {
-    const stats = await getRowById("stats", id);  
-    setStats(stats as typeof statsInitial); 
+    const stats = await getRowById("stats", id);
+    setStats(stats as typeof statsInitial);
   };
 
   useFocusEffect(

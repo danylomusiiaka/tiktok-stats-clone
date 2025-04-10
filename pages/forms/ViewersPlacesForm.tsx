@@ -2,12 +2,13 @@ import { TextInput, Text, TouchableOpacity, View, ScrollView, KeyboardAvoidingVi
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { createTable } from "sqlite/queries/table_crud";
-import { insertInto, getRowById } from "sqlite/queries/crud";
+import { createTable } from "sqlite/operations/table_crud";
+import { insertInto, getRowById } from "sqlite/operations/crud";
 import { viewersPlacesInitial, viewersPlacesTableStructure } from "sqlite/tables/viewersPlaces";
 import { useID } from "contexts/IdContext";
 import { Header } from "components/Header";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import FormControls from "components/FormControls";
 
 export default function ViewersPlacesForm() {
   const [prevviewersPlaces, setPrevviewersPlaces] = useState(viewersPlacesInitial);
@@ -112,24 +113,8 @@ export default function ViewersPlacesForm() {
             <TouchableOpacity className="mb-4 flex items-center justify-center rounded-md bg-green-500 py-4" onPress={addPair}>
               <Text className="text-lg font-semibold color-white">Додати місце</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="mt-4 flex items-center justify-center rounded-md bg-gray-500 py-4"
-              onPress={async () => {
-                await submitForm();
-                navigation.navigate("FrequentWordsForm");
-              }}
-            >
-              <Text className="text-lg font-semibold color-white">Наступна форма</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-4"
-              onPress={async () => {
-                await submitForm();
-                navigation.navigate("Analytics");
-              }}
-            >
-              <Text className="text-lg font-semibold color-white">Переглянути попередній вигляд</Text>
-            </TouchableOpacity>
+
+            <FormControls submitForm={submitForm} nextPage="FrequentWordsForm" />
           </View>
         </ScrollView>
         <StatusBar />

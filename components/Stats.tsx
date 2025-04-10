@@ -3,7 +3,7 @@ import PlayButton from "react-native-vector-icons/FontAwesome5";
 import Bookmark from "react-native-vector-icons/Ionicons";
 import { Image, Text, View } from "react-native";
 import { useCallback, useState } from "react";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { statsInitial } from "sqlite/tables/stats";
 import { useID } from "contexts/IdContext";
 import { useFocusEffect } from "@react-navigation/native";

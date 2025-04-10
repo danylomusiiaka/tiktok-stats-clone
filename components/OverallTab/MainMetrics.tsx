@@ -4,7 +4,7 @@ import { useID } from "contexts/IdContext";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Text, TouchableOpacity } from "react-native";
-import { getRowById } from "sqlite/queries/crud";
+import { getRowById } from "sqlite/operations/crud";
 import { mainMetricsInitial } from "sqlite/tables/mainMetrics";
 
 export const Plitki = () => {
@@ -44,7 +44,7 @@ export const Plitki = () => {
         <Text className={`${i18n.language == "en" ? "font-medium" : "font-normal"} ${fontClass} text-base text-gray-500`}>
           {t("mainMetrics.updated")}{" "}
         </Text>
-        <Text className=" font-medium text-base text-gray-500">{mainMetrics?.updated}.</Text>
+        <Text className="text-base font-medium text-gray-500">{mainMetrics?.updated}.</Text>
       </View>
       <View className="flex flex-row flex-wrap justify-between">
         {Object.entries(mainMetrics || mainMetricsInitial)
