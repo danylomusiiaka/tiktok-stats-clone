@@ -23,7 +23,7 @@ export default function SearchQueriesForm() {
         query_values: cleanedQueryValues,
       };
 
-      if (JSON.stringify(cleanedData) === JSON.stringify(prevSearchQueries) || !searchQueries) return;
+      if (JSON.stringify(cleanedData) === JSON.stringify(prevSearchQueries) || !cleanedQueryValues.length) return;
 
       const stringifiedData = {
         id: id,

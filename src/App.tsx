@@ -7,7 +7,7 @@ import MainMetricsForm from "./screens/forms/MainMetricsForm";
 import MainMetricsGraphForm from "~/screens/forms/MainMetricsGraphForm";
 import CoefGraphForm from "~/screens/forms/CoefGraphForm";
 import TrafficOriginForm from "./screens/forms/TrafficOriginForm";
-import SearchQueriesForm from "./screens/forms/SearchTermsForm";
+import SearchQueriesForm from "./screens/forms/SearchQueriesForm";
 import ViewersForm from "~/screens/forms/ViewersAmount&TypeForm";
 import ViewersGenderAgeForm from "~/screens/forms/ViewersGender&AgeForm";
 import ViewersPlacesForm from "~/screens/forms/ViewersPlacesForm";
@@ -16,15 +16,14 @@ import LikesGraphForm from "~/screens/forms/LikesGraphForm";
 import { IDProvider } from "./contexts/IdContext";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { registerRootComponent } from "expo";
-import * as SQLite from "expo-sqlite";
+import { openDatabaseSync } from "expo-sqlite";
 import "./global.css";
 import "~/i18n/i18n";
 
-const Stack = createNativeStackNavigator();
-
-const db = SQLite.openDatabaseSync("myDatabase.db");
-
 registerRootComponent(App);
+
+const Stack = createNativeStackNavigator();
+const db = openDatabaseSync("myDatabase.db");
 
 export default function App() {
   useDrizzleStudio(db);

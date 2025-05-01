@@ -9,7 +9,7 @@ import rusTranslations from "./rus.json";
 
 const resources = {
   en: { translation: enTranslations },
-  ua: { translation: uaTranslations }, 
+  ua: { translation: uaTranslations },
   rus: { translation: rusTranslations },
 };
 
